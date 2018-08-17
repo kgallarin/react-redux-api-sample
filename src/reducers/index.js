@@ -3,11 +3,13 @@ import {
   FETCH_FULFILLED,
   FETCH_PENDING,
   FETCH_REJECTED,
-  QUERY_IMAGE
+  QUERY_IMAGE,
+  INDIVIDUAL_IMAGE_STATE
 } from "../actions/index";
 
 const searchSettingsDefaultState = {
   text_query: "rainy",
+  imageToDOM: true,
   settings: {
     params: {
       per_page: 15,
@@ -19,6 +21,11 @@ const searchSettingsDefaultState = {
 
 const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
   switch (action.type) {
+    case INDIVIDUAL_IMAGE_STATE:
+      return {
+        ...state,
+        imageToDOM: action.imageToDOM
+      };
     case QUERY_IMAGE:
       return {
         ...state,

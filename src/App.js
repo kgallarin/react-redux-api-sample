@@ -49,7 +49,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <form onSubmit={this.formSubmit}>
             <input name="inputQuery" type="text" />
           </form>
@@ -58,8 +57,11 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <ImageList imgData={dataReducer} />
-        {/* <ul>{renderImages}</ul> */}
+        {dataReducer.isLoading ? (
+          "Loading . . ."
+        ) : (
+          <ImageList imgData={dataReducer} />
+        )}
       </div>
     );
   }
