@@ -28,8 +28,9 @@ const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
       };
     case QUERY_IMAGE:
       return {
-        ...state,
-        text_query: action.text_query
+        text_query: action.text_query,
+        [action.text_query]: dataReducer(state[action.text_query], action),
+        ...state
       };
     default:
       return state;

@@ -12,7 +12,7 @@ export const FETCH_PENDING = "FETCH_PENDING";
 export const FETCH_REJECTED = "FETCH_REJECTED";
 
 export const searchQuery = (
-  text_query,
+  text_query = "",
   imageToDOM = Boolean,
   per_page = 0,
   currentPage = 0,

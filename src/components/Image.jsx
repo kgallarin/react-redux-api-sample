@@ -22,7 +22,6 @@ class Image extends Component {
   };
   render() {
     const { image, searchQueryReducer } = this.props;
-    console.log(typeof searchQueryReducer.imageToDOM);
     const render = image.dataItems.data.map(response => {
       return (
         <li key={response.id}>
@@ -32,7 +31,7 @@ class Image extends Component {
             }}
           >
             <img
-              className={searchQueryReducer.imageToDOM ? "hiade" : "shoaw"}
+              className={searchQueryReducer.imageToDOM ? "hide" : "show"}
               onLoad={this.imgOnload}
               src={response.urls.regular}
               alt="/"
@@ -42,7 +41,6 @@ class Image extends Component {
         </li>
       );
     });
-    // console.log(image);
     return <Fragment>{render}</Fragment>;
   }
 }

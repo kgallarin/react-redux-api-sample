@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 // redux
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 // components
 import ImageList from "./components/ImageList";
+import Pagination from "./components/Pagination";
 // assets
 import "normalize.css/normalize.css";
 import "./styles/App.css";
@@ -13,9 +14,9 @@ import { fetchAPI, searchQuery } from "./actions/index";
 
 class App extends Component {
   componentDidMount() {
-    const { fetchAPI, searchQueryReducer } = this.props;
-
-    fetchAPI(searchQueryReducer.text_query, searchQueryReducer.settings);
+    const { fetchAPI, settings, text_query } = this.props;
+    console.log(this.props);
+    fetchAPI(text_query, settings);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,7 +46,8 @@ class App extends Component {
     }
   };
   render() {
-    const { dataReducer } = this.props;
+    const { dataReducer, searchQueryReducer } = this.props;
+    console.log(this.props);
     return (
       <div className="App">
         <header className="App-header">
@@ -60,7 +62,10 @@ class App extends Component {
         {dataReducer.isLoading ? (
           "Loading . . ."
         ) : (
-          <ImageList imgData={dataReducer} />
+          <Fragment>
+            <Pagination paginationData={searchQueryReducer} />
+            <ImageList imgData={dataReducer} />
+          </Fragment>
         )}
       </div>
     );
@@ -88,9 +93,26 @@ App.propTypes = {
 
 const mapStateToProps = state => {
   const { searchQueryReducer, dataReducer } = state;
+  const {
+    text_query,
+    isLoading,
+    dataItems,
+    isRejected,
+    err,
+    settings
+  } = dataReducer[searchQueryReducer] || {
+    isLoading: true,
+    dataItems: []
+  };
   return {
     searchQueryReducer,
-    dataReducer
+    dataReducer,
+    text_query,
+    isLoading,
+    dataItems,
+    isRejected,
+    settings,
+    err
   };
 };
 const mapDispatchToProps = dispatch =>
