@@ -5,7 +5,9 @@ import Image from "./Image";
 const ImageList = ({ imgData }) => {
   const render = (
     <ul>
-      <Image image={imgData} />
+      <div>
+        <Image image={imgData} />
+      </div>
     </ul>
   );
   return <Fragment>{render}</Fragment>;
