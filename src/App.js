@@ -14,17 +14,16 @@ import { fetchAPI, searchQuery } from "./actions/index";
 
 class App extends Component {
   componentDidMount() {
-    const { fetchAPI, settings, text_query } = this.props;
-    console.log(this.props);
+    const { settings, fetchAPI, text_query } = this.props;
     fetchAPI(text_query, settings);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { searchQueryReducer, fetchAPI } = this.props;
-    const textQuery = nextProps.searchQueryReducer.text_query;
+    const { text_query, fetchAPI, settings } = this.props;
+    const textQuery = nextProps.text_query;
 
-    if (textQuery !== searchQueryReducer.text_query) {
-      fetchAPI(textQuery, searchQueryReducer.settings);
+    if (textQuery !== text_query) {
+      fetchAPI(textQuery, settings);
     }
   }
   // expensive live search
@@ -35,19 +34,21 @@ class App extends Component {
   // };
   formSubmit = event => {
     event.preventDefault();
-    const { searchQuery, fetchAPI, searchQueryReducer } = this.props;
-    let inputText = event.target.elements.inputQuery.value.trim();
+    const { settings, searchQuery } = this.props;
+    // input submitted
+    let inputTextSubmitted = event.target.elements.inputQuery.value.trim();
+    // default value
     const defaultsearchQuery = "rainy";
-    if (inputText !== "") {
-      searchQuery(inputText);
+
+    if (inputTextSubmitted !== "") {
+      searchQuery(inputTextSubmitted);
       event.target.elements.inputQuery.value = "";
     } else {
-      fetchAPI(defaultsearchQuery, searchQueryReducer.settings);
+      fetchAPI(defaultsearchQuery, settings);
     }
   };
   render() {
     const { dataReducer, searchQueryReducer } = this.props;
-    console.log(this.props);
     return (
       <div className="App">
         <header className="App-header">
@@ -78,37 +79,20 @@ App.defaultPropTypes = {
 };
 
 App.propTypes = {
-  fetchAPI: PropTypes.func.isRequired,
-  searchQuery: PropTypes.func.isRequired,
-  searchQueryReducer: PropTypes.shape({
-    text_query: PropTypes.string.isRequired,
-    settings: PropTypes.object
-  }).isRequired,
-  dataReducer: PropTypes.shape({
-    dataItems: PropTypes.shape({
-      data: PropTypes.array
-    })
-  }).isRequired
+  fetchAPI: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   const { searchQueryReducer, dataReducer } = state;
-  const {
-    text_query,
-    isLoading,
-    dataItems,
-    isRejected,
-    err,
-    settings
-  } = dataReducer[searchQueryReducer] || {
-    isLoading: true,
-    dataItems: []
-  };
+  const { text_query, settings } = searchQueryReducer;
+  const { dataItems, isLoading, err, isRejected } = dataReducer;
+
   return {
     searchQueryReducer,
     dataReducer,
     text_query,
     isLoading,
+    // data,
     dataItems,
     isRejected,
     settings,

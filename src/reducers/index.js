@@ -8,11 +8,11 @@ import {
 } from "../actions/index";
 
 const searchSettingsDefaultState = {
-  text_query: "rainy",
+  text_query: "kevin",
   imageToDOM: true,
   settings: {
     params: {
-      per_page: 15,
+      per_page: 2,
       currentPage: 2,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
@@ -21,16 +21,15 @@ const searchSettingsDefaultState = {
 
 const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
   switch (action.type) {
+    case QUERY_IMAGE:
+      return {
+        ...state,
+        text_query: action.text_query
+      };
     case INDIVIDUAL_IMAGE_STATE:
       return {
         ...state,
         imageToDOM: action.imageToDOM
-      };
-    case QUERY_IMAGE:
-      return {
-        text_query: action.text_query,
-        [action.text_query]: dataReducer(state[action.text_query], action),
-        ...state
       };
     default:
       return state;
@@ -39,9 +38,7 @@ const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
 
 const dataDefaultState = {
   isLoading: true,
-  dataItems: {
-    data: []
-  },
+  dataItems: [],
   isRejected: false,
   err: ""
 };
