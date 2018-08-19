@@ -2,25 +2,22 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Image from "./Image";
 
-const ImageList = ({ imgData }) => {
-  const render = (
-    <ul>
-      <div>
-        <Image image={imgData} />
-      </div>
-    </ul>
+const ImageList = ({ imgData, imageToDOM }) => {
+  const mapData = imgData.data.map(response => response);
+  return (
+    <Fragment>
+      <Image imageToDOM={imageToDOM} dataResponse={mapData} />
+    </Fragment>
   );
-  return <Fragment>{render}</Fragment>;
 };
 
 ImageList.defaultProps = {
   imgData: {}
 };
-
 ImageList.propTypes = {
   imgData: PropTypes.shape({
-    dataItems: PropTypes.object.isRequired
-  })
+    data: PropTypes.array.isRequired
+  }),
+  imageToDOM: PropTypes.bool.isRequired
 };
-
 export default ImageList;

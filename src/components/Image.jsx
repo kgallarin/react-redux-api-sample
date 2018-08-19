@@ -21,55 +21,45 @@ class Image extends Component {
     imageHandling(!allImagesLoaded(this.parentElement));
   };
   render() {
-    const { image, searchQueryReducer } = this.props;
-    const render = image.dataItems.data.map(response => {
-      return (
-        <li key={response.id}>
-          <div
-            ref={parentElement => {
-              this.parentElement = parentElement;
-            }}
-          >
-            <img
-              className={searchQueryReducer.imageToDOM ? "hide" : "show"}
-              onLoad={this.imgOnload}
-              src={response.urls.regular}
-              alt="/"
-            />
-            {searchQueryReducer.imageToDOM ? <p> Loading . . </p> : ""}
-          </div>
-        </li>
-      );
-    });
-    return <Fragment>{render}</Fragment>;
+    const { dataResponse, imageToDOM } = this.props;
+
+    return (
+      <Fragment>
+        {dataResponse.map(res => (
+          <li key={res.id}>
+            <div
+              ref={parentElement => {
+                this.parentElement = parentElement;
+              }}
+            >
+              <img
+                className={imageToDOM ? "hide" : "show"}
+                onLoad={this.imgOnload}
+                alt="/"
+                src={res.urls.thumb}
+              />
+
+              {imageToDOM ? <p>Loading . . </p> : ""}
+            </div>
+          </li>
+        ))}
+      </Fragment>
+    );
   }
 }
-
 Image.defaultProps = {
-  image: {},
-  searchQueryReducer: {}
+  dataResponse: []
 };
 Image.propTypes = {
-  image: PropTypes.shape({
-    data: PropTypes.array
-  }),
-  searchQueryReducer: PropTypes.shape({
-    imageToDOM: PropTypes.bool.isRequired
-  }),
-  imageHandling: PropTypes.func.isRequired
+  imageHandling: PropTypes.func.isRequired,
+  dataResponse: PropTypes.array.isRequired,
+  imageToDOM: PropTypes.bool.isRequired
 };
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ imageHandling }, dispatch);
 
-const mapStateToProps = state => {
-  const { searchQueryReducer } = state;
-  return {
-    searchQueryReducer
-  };
-};
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Image);

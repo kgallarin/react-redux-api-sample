@@ -38,13 +38,14 @@ const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
 
 const dataDefaultState = {
   isLoading: true,
-  dataItems: [],
+  dataItems: {},
   isRejected: false,
   err: ""
 };
 
 const dataReducer = (state = dataDefaultState, action) => {
   switch (action.type) {
+    case QUERY_IMAGE:
     case FETCH_PENDING:
       return dataDefaultState;
     case FETCH_FULFILLED:

@@ -13,17 +13,33 @@ import "./styles/App.css";
 import { fetchAPI, searchQuery } from "./actions/index";
 
 class App extends Component {
+  static propTypes = {
+    fetchAPI: PropTypes.func.isRequired,
+    searchQuery: PropTypes.func.isRequired,
+    text_query: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      text_query: PropTypes.string,
+      per_page: PropTypes.number,
+      currentPage: PropTypes.number,
+      client_id: PropTypes.string
+    }).isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    imageToDOM: PropTypes.bool.isRequired,
+    imgData: PropTypes.shape({
+      data: PropTypes.array
+    }).isRequired
+  };
   componentDidMount() {
-    const { settings, fetchAPI, text_query } = this.props;
-    fetchAPI(text_query, settings);
+    const { params, fetchAPI, text_query } = this.props;
+    fetchAPI(text_query, params);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { text_query, fetchAPI, settings } = this.props;
     const textQuery = nextProps.text_query;
+    const { text_query, fetchAPI, params } = this.props;
 
     if (textQuery !== text_query) {
-      fetchAPI(textQuery, settings);
+      fetchAPI(textQuery, params);
     }
   }
   // expensive live search
@@ -34,21 +50,21 @@ class App extends Component {
   // };
   formSubmit = event => {
     event.preventDefault();
-    const { settings, searchQuery } = this.props;
-    // input submitted
-    let inputTextSubmitted = event.target.elements.inputQuery.value.trim();
-    // default value
+    const { params, searchQuery } = this.props;
     const defaultsearchQuery = "rainy";
+
+    let inputTextSubmitted = event.target.elements.inputQuery.value.trim();
 
     if (inputTextSubmitted !== "") {
       searchQuery(inputTextSubmitted);
       event.target.elements.inputQuery.value = "";
     } else {
-      fetchAPI(defaultsearchQuery, settings);
+      fetchAPI(defaultsearchQuery, params);
     }
   };
   render() {
-    const { dataReducer, searchQueryReducer } = this.props;
+    // const { dataItems: data, isLoading, err, isRejected } = dataReducer;
+    const { imgData, isLoading, params, imageToDOM } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -60,12 +76,12 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        {dataReducer.isLoading ? (
+        {isLoading ? (
           "Loading . . ."
         ) : (
           <Fragment>
-            <Pagination paginationData={searchQueryReducer} />
-            <ImageList imgData={dataReducer} />
+            <Pagination paginationData={params} />
+            <ImageList imageToDOM={imageToDOM} imgData={imgData} />
           </Fragment>
         )}
       </div>
@@ -73,29 +89,20 @@ class App extends Component {
   }
 }
 
-App.defaultPropTypes = {
-  dataReducer: {},
-  searchQueryReducer: {}
-};
-
-App.propTypes = {
-  fetchAPI: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => {
   const { searchQueryReducer, dataReducer } = state;
-  const { text_query, settings } = searchQueryReducer;
-  const { dataItems, isLoading, err, isRejected } = dataReducer;
+  const { text_query, settings: params, imageToDOM } = searchQueryReducer;
+  const { dataItems: imgData, isLoading, err, isRejected } = dataReducer;
 
   return {
     searchQueryReducer,
     dataReducer,
     text_query,
+    imageToDOM,
     isLoading,
-    // data,
-    dataItems,
+    imgData,
     isRejected,
-    settings,
+    params,
     err
   };
 };

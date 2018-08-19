@@ -1,22 +1,24 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import Pagination from "react-js-pagination";
 
 import { connect } from "react-redux";
 
 const PaginatePage = ({ paginationData }) => {
-  //   paginationData.settings.params.map(res => console.log(res));
-  //   const paginationHeaders = paginationData.settings.params;
-  //   console.log(paginationHeaders);
   return (
     <Fragment>
       <p>Hello from Paginate</p>
-      {/* <Pagination
-        activePage={paginationHeaders.currentPage}
-        itemsCountPerPage={paginationHeaders.per_page}
+      <Pagination
+        activePage={paginationData.currentPage}
+        itemsCountPerPage={paginationData.per_page}
         // totalItemsCount={}
-      /> */}
+      />
     </Fragment>
   );
+};
+
+PaginatePage.propTypes = {
+  paginationData: PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => {
@@ -26,10 +28,6 @@ const mapStateToProps = state => {
     searchQueryReducer
   };
 };
-
-// const mapDispatchToProps = dispatch => {
-
-// }
 export default connect(
   mapStateToProps,
   null
