@@ -35,7 +35,7 @@ class Image extends Component {
                 className={imageToDOM ? "hide" : "show"}
                 onLoad={this.imgOnload}
                 alt="/"
-                src={res.urls.thumb}
+                src={res.urls.raw}
               />
 
               {imageToDOM ? <p>Loading . . </p> : ""}

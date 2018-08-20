@@ -25,7 +25,8 @@ class App extends Component {
     }).isRequired,
     isLoading: PropTypes.bool.isRequired,
     imageToDOM: PropTypes.bool.isRequired,
-    images: PropTypes.array
+    images: PropTypes.array,
+    pageHeaders: PropTypes.object
   };
   componentDidMount() {
     const { params, fetchAPI, text_query } = this.props;
@@ -61,7 +62,8 @@ class App extends Component {
     }
   };
   render() {
-    const { isLoading, params, imageToDOM, images } = this.props;
+    const { isLoading, pageHeaders, imageToDOM, images, params } = this.props;
+    console.log(params);
     return (
       <div className="App">
         <header className="App-header">
@@ -77,8 +79,8 @@ class App extends Component {
           "Loading . . ."
         ) : (
           <Fragment>
-            <ImageList imageToDOM={imageToDOM} imgData={images} />
-            {/* <Pagination paginationData={params} dataHeaders={imgData} /> */}
+            {/* <ImageList imageToDOM={imageToDOM} imgData={images} /> */}
+            <Pagination pageHeaders={pageHeaders} />
           </Fragment>
         )}
       </div>
@@ -87,11 +89,16 @@ class App extends Component {
 }
 
 App.defaultProps = {
-  images: []
+  images: [],
+  pageHeaders: {}
 };
 const mapStateToProps = state => {
-  const { searchQueryReducer, dataReducer, receiveData } = state;
-  const { text_query, settings: params, imageToDOM } = searchQueryReducer;
+  const { searchQueryReducer, promiseReducer, receiveData } = state;
+  // promise data reducer
+  const { isLoading } = promiseReducer;
+  // query and params/settings reducer
+  const { text_query, imageToDOM, settings: params } = searchQueryReducer;
+  // state shape
   const { imgData: images, pageHeaders } = receiveData[text_query] || {
     dataItems: []
   };
@@ -99,10 +106,11 @@ const mapStateToProps = state => {
   return {
     searchQueryReducer,
     pageHeaders,
-    dataReducer,
+    promiseReducer,
     text_query,
     imageToDOM,
     images,
+    isLoading,
     params
   };
 };

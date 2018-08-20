@@ -6,32 +6,34 @@ import { bindActionCreators } from "redux";
 
 class PaginatePage extends Component {
   handleClick = () => {
-    const { paginationData, dispatch } = this.props;
-    const page = paginationData.params.page;
+    const { pageHeaders, dispatch } = this.props;
+    // const page = paginationData.params.page;
     // return dispatch(nextPage(page));
   };
   render() {
+    const { pageHeaders, dispatch } = this.props;
+    console.log(pageHeaders["x-total"]);
     return (
       <Fragment>
         <p>Hello from Paginate</p>
         {/* <button type="submit" onClick={}>
           Previous
         </button> */}
-        <button type="submit" onClick={this.handleClick}>
+        {/* <button type="submit" onClick={this.handleClick}>
           Next
-        </button>
+        </button> */}
       </Fragment>
     );
   }
 }
 
 PaginatePage.defaultProps = {
-  pageRange: 5
+  pageRange: 5,
+  pageHeaders: []
 };
 PaginatePage.propTypes = {
   pageRange: PropTypes.number,
-  paginationData: PropTypes.shape({}).isRequired,
-  dataHeaders: PropTypes.shape({}).isRequired
+  pageHeaders: PropTypes.object
 };
 
 const mapDispatchToProps = dispatch =>

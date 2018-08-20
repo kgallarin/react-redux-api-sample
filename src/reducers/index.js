@@ -54,7 +54,7 @@ const dataDefaultState = {
   err: ""
 };
 
-const dataReducer = (state = dataDefaultState, action) => {
+const promiseReducer = (state = dataDefaultState, action) => {
   switch (action.type) {
     case FETCH_PENDING:
       return dataDefaultState;
@@ -90,7 +90,7 @@ const receiveData = (state = {}, action) => {
     case RECEIVE_DATA:
       return {
         ...state,
-        [action.query]: dataReducer(state[action.query], action)
+        [action.query]: promiseReducer(state[action.query], action)
       };
     default:
       return state;
@@ -98,7 +98,7 @@ const receiveData = (state = {}, action) => {
 };
 
 const rootReducer = combineReducers({
-  dataReducer,
+  promiseReducer,
   searchQueryReducer,
   receiveData
 });
