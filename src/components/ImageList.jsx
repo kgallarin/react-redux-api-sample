@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Image from "./Image";
 
 const ImageList = ({ imgData, imageToDOM }) => {
-  const mapData = imgData.data.map(response => response);
+  const mapData = imgData.map(response => response);
   return (
     <Fragment>
       <Image imageToDOM={imageToDOM} dataResponse={mapData} />
@@ -11,13 +11,8 @@ const ImageList = ({ imgData, imageToDOM }) => {
   );
 };
 
-ImageList.defaultProps = {
-  imgData: {}
-};
 ImageList.propTypes = {
-  imgData: PropTypes.shape({
-    data: PropTypes.array.isRequired
-  }),
+  imgData: PropTypes.array.isRequired,
   imageToDOM: PropTypes.bool.isRequired
 };
 export default ImageList;

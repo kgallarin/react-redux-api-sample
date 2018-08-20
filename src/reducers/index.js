@@ -4,21 +4,26 @@ import {
   FETCH_PENDING,
   FETCH_REJECTED,
   QUERY_IMAGE,
-  INDIVIDUAL_IMAGE_STATE
-  // NEXT_PAGE
+  INDIVIDUAL_IMAGE_STATE,
+  NEXT_PAGE,
+  PAGINATION_PRESETS,
+  RECEIVE_DATA
 } from "../actions/index";
 
+const RECEIVE_DATA_PENDING = "RECEIVE_DATA_PENDING";
+const RECEIVE_DATA_FULFILLED = "RECEIVE_DATA_FULFILLED";
+const RECEIVE_DATA_REJECTED = "RECEIVE_DATA_REJECTED";
 // change page handler
 
 // search query reducer contains fetch parameters and query
 const searchSettingsDefaultState = {
   text_query: "dark",
   pageRange: 5,
+  page: 1,
   imageToDOM: true,
   settings: {
     params: {
       per_page: 12,
-      page: 1,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   }
@@ -26,8 +31,6 @@ const searchSettingsDefaultState = {
 
 const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
   switch (action.type) {
-    // case NEXT_PAGE:
-    //   return { ...state, page: action.page };
     case QUERY_IMAGE:
       return {
         ...state,
@@ -45,28 +48,49 @@ const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
 // data reducer contains data fetching payload
 const dataDefaultState = {
   isLoading: true,
-  dataItems: {},
+  imgData: [],
+  pageHeaders: {},
   isRejected: false,
   err: ""
 };
 
 const dataReducer = (state = dataDefaultState, action) => {
   switch (action.type) {
-    case QUERY_IMAGE:
     case FETCH_PENDING:
       return dataDefaultState;
-    case FETCH_FULFILLED:
-      return {
-        ...state,
-        isLoading: false,
-        dataItems: action.payload
-      };
     case FETCH_REJECTED:
       return {
         ...state,
         isLoading: false,
-        isRejected: true,
-        err: action.payload
+        isRejected: true
+      };
+    case FETCH_FULFILLED:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case RECEIVE_DATA:
+      return {
+        ...state,
+        isLoading: false,
+        imgData: action.imageDataPayload,
+        pageHeaders: action.pageHeaders
+      };
+
+    default:
+      return state;
+  }
+};
+
+const receiveData = (state = {}, action) => {
+  switch (action.type) {
+    case RECEIVE_DATA_PENDING:
+    case RECEIVE_DATA_REJECTED:
+    case RECEIVE_DATA_FULFILLED:
+    case RECEIVE_DATA:
+      return {
+        ...state,
+        [action.query]: dataReducer(state[action.query], action)
       };
     default:
       return state;
@@ -75,7 +99,8 @@ const dataReducer = (state = dataDefaultState, action) => {
 
 const rootReducer = combineReducers({
   dataReducer,
-  searchQueryReducer
+  searchQueryReducer,
+  receiveData
 });
 
 export default rootReducer;

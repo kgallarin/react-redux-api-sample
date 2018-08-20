@@ -1,74 +1,23 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+// import { nextPage } from "../actions/index";
 
 class PaginatePage extends Component {
-  rangeStart = () => {
-    const { paginationData, pageRange } = this.props;
-    const start = paginationData.params.page - pageRange;
-    return start > 0 ? start : 1;
-  };
-  rangeEnd = () => {
-    const { paginationData, pageRange } = this.props;
-    const pageEnd = paginationData.params.page + pageRange;
-
-    const totalPages = this.totalPages();
-
-    return pageEnd < totalPages ? pageEnd : totalPages;
-  };
-  totalPages = () => {
-    const { dataHeaders } = this.props;
-
-    return Math.ceil(
-      dataHeaders.headers["x-total"] / dataHeaders.headers["x-per-page"]
-    );
-  };
-  nextPage = () => {
-    const { paginationData } = this.props;
-    return paginationData.params.page + 1;
-  };
-  previousPage = () => {
-    const { paginationData } = this.props;
-    return paginationData.params.page - 1;
-  };
-  // NAVIGATION STARTS
-  hasFirstPage = () => {
-    return this.rangeStart !== 1;
-  };
-  hasLastPage = () => {
-    return this.rangeEnd() < this.totalPages();
-  };
-  hasPrevious = () => {
-    const { paginationData } = this.props;
-    return paginationData.params.page > 1;
-  };
-  hasNext = () => {
-    const { paginationData } = this.props;
-    return paginationData.params.page < this.totalPages();
-  };
-  handleChangePage = page => {
-    return page;
-  };
-  pages = () => {
-    let pages = [];
-    for (let start = this.rangeStart(); start <= this.rangeEnd(); start++) {
-      pages.push[start];
-    }
-    return pages;
+  handleClick = () => {
+    const { paginationData, dispatch } = this.props;
+    const page = paginationData.params.page;
+    // return dispatch(nextPage(page));
   };
   render() {
     return (
       <Fragment>
         <p>Hello from Paginate</p>
-        <button
-          type="submit"
-          onClick={() => this.handleChangePage(this.previousPage())}
-        >
+        {/* <button type="submit" onClick={}>
           Previous
-        </button>
-        <button
-          type="submit"
-          onClick={() => this.handleChangePage(this.nextPage())}
-        >
+        </button> */}
+        <button type="submit" onClick={this.handleClick}>
           Next
         </button>
       </Fragment>
@@ -84,4 +33,10 @@ PaginatePage.propTypes = {
   paginationData: PropTypes.shape({}).isRequired,
   dataHeaders: PropTypes.shape({}).isRequired
 };
-export default PaginatePage;
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ dispatch }, dispatch);
+export default connect(
+  null,
+  mapDispatchToProps
+)(PaginatePage);

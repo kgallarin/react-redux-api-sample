@@ -22,7 +22,6 @@ class Image extends Component {
   };
   render() {
     const { dataResponse, imageToDOM } = this.props;
-
     return (
       <Fragment>
         {dataResponse.map(res => (
@@ -47,9 +46,6 @@ class Image extends Component {
     );
   }
 }
-Image.defaultProps = {
-  dataResponse: []
-};
 Image.propTypes = {
   imageHandling: PropTypes.func.isRequired,
   dataResponse: PropTypes.array.isRequired,
