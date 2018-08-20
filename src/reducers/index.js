@@ -5,15 +5,20 @@ import {
   FETCH_REJECTED,
   QUERY_IMAGE,
   INDIVIDUAL_IMAGE_STATE
+  // NEXT_PAGE
 } from "../actions/index";
 
+// change page handler
+
+// search query reducer contains fetch parameters and query
 const searchSettingsDefaultState = {
-  text_query: "kevin",
+  text_query: "dark",
+  pageRange: 5,
   imageToDOM: true,
   settings: {
     params: {
-      per_page: 2,
-      currentPage: 2,
+      per_page: 12,
+      page: 1,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   }
@@ -21,6 +26,8 @@ const searchSettingsDefaultState = {
 
 const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
   switch (action.type) {
+    // case NEXT_PAGE:
+    //   return { ...state, page: action.page };
     case QUERY_IMAGE:
       return {
         ...state,
@@ -35,7 +42,7 @@ const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
       return state;
   }
 };
-
+// data reducer contains data fetching payload
 const dataDefaultState = {
   isLoading: true,
   dataItems: {},

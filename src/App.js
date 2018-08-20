@@ -51,7 +51,7 @@ class App extends Component {
   formSubmit = event => {
     event.preventDefault();
     const { params, searchQuery } = this.props;
-    const defaultsearchQuery = "rainy";
+    const defaultsearchQuery = "dark";
 
     let inputTextSubmitted = event.target.elements.inputQuery.value.trim();
 
@@ -63,7 +63,6 @@ class App extends Component {
     }
   };
   render() {
-    // const { dataItems: data, isLoading, err, isRejected } = dataReducer;
     const { imgData, isLoading, params, imageToDOM } = this.props;
     return (
       <div className="App">
@@ -80,8 +79,8 @@ class App extends Component {
           "Loading . . ."
         ) : (
           <Fragment>
-            <Pagination paginationData={params} />
-            <ImageList imageToDOM={imageToDOM} imgData={imgData} />
+            <ImageList imageToDOM={imageToDOM} imgData={imgData} />{" "}
+            <Pagination paginationData={params} dataHeaders={imgData} />
           </Fragment>
         )}
       </div>
@@ -92,7 +91,13 @@ class App extends Component {
 const mapStateToProps = state => {
   const { searchQueryReducer, dataReducer } = state;
   const { text_query, settings: params, imageToDOM } = searchQueryReducer;
-  const { dataItems: imgData, isLoading, err, isRejected } = dataReducer;
+  const {
+    dataItems: imgData,
+    dataItems: headers,
+    isLoading,
+    err,
+    isRejected
+  } = dataReducer;
 
   return {
     searchQueryReducer,
@@ -101,8 +106,9 @@ const mapStateToProps = state => {
     imageToDOM,
     isLoading,
     imgData,
-    isRejected,
     params,
+    isRejected,
+    headers,
     err
   };
 };
