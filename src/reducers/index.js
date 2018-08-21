@@ -5,7 +5,7 @@ import {
   FETCH_REJECTED,
   QUERY_IMAGE,
   INDIVIDUAL_IMAGE_STATE,
-  NEXT_PAGE,
+  // NEXT_PAGE,
   PAGINATION_PRESETS,
   RECEIVE_DATA
 } from "../actions/index";
@@ -18,12 +18,11 @@ const RECEIVE_DATA_REJECTED = "RECEIVE_DATA_REJECTED";
 // search query reducer contains fetch parameters and query
 const searchSettingsDefaultState = {
   text_query: "dark",
-  pageRange: 5,
-  page: 1,
   imageToDOM: true,
   settings: {
     params: {
       per_page: 12,
+      page: 1,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   }
@@ -50,6 +49,7 @@ const dataDefaultState = {
   isLoading: true,
   imgData: [],
   pageHeaders: {},
+  pageRange: 5,
   isRejected: false,
   err: ""
 };
@@ -76,12 +76,21 @@ const promiseReducer = (state = dataDefaultState, action) => {
         imgData: action.imageDataPayload,
         pageHeaders: action.pageHeaders
       };
-
     default:
       return state;
   }
 };
-
+const pagination = (state = {}, action) => {
+  switch (action.type) {
+    case PAGINATION_PRESETS:
+      return {
+        ...state,
+        currentState: action.state
+      };
+    default:
+      return state;
+  }
+};
 const receiveData = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_DATA_PENDING:
@@ -100,7 +109,8 @@ const receiveData = (state = {}, action) => {
 const rootReducer = combineReducers({
   promiseReducer,
   searchQueryReducer,
-  receiveData
+  receiveData,
+  pagination
 });
 
 export default rootReducer;

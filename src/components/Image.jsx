@@ -4,21 +4,20 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { imageHandling } from "../actions/index";
 
-const allImagesLoaded = parentNodeElement => {
-  const allImages = parentNodeElement.querySelectorAll("img");
-
-  for (const img of allImages) {
-    if (!img.complete) {
-      return false;
-    }
-  }
-  return true;
-};
-
 class Image extends Component {
+  allImagesLoaded = parentNodeElement => {
+    const allImages = parentNodeElement.querySelectorAll("img");
+
+    for (const img of allImages) {
+      if (!img.complete) {
+        return false;
+      }
+    }
+    return true;
+  };
   imgOnload = () => {
     const { imageHandling } = this.props;
-    imageHandling(!allImagesLoaded(this.parentElement));
+    imageHandling(!this.allImagesLoaded(this.parentElement));
   };
   render() {
     const { dataResponse, imageToDOM } = this.props;
@@ -32,10 +31,10 @@ class Image extends Component {
               }}
             >
               <img
-                className={imageToDOM ? "hide" : "show"}
                 onLoad={this.imgOnload}
+                className={imageToDOM ? "hide" : "show"}
                 alt="/"
-                src={res.urls.raw}
+                src={res.urls.regular}
               />
 
               {imageToDOM ? <p>Loading . . </p> : ""}
@@ -46,6 +45,7 @@ class Image extends Component {
     );
   }
 }
+
 Image.propTypes = {
   imageHandling: PropTypes.func.isRequired,
   dataResponse: PropTypes.array.isRequired,

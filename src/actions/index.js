@@ -16,7 +16,7 @@ export const FETCH_REJECTED = "FETCH_REJECTED";
 export const RECEIVE_DATA = "RECEIVE_DATA";
 // page change
 // export const NEXT_PAGE = "NEXT_PAGE";
-// export const PAGINATION_PRESETS = "PAGINATION_PRESETS";
+export const PAGINATION_PRESETS = "PAGINATION_PRESETS";
 
 // 🎬 FETCH STARTS
 export const searchQuery = (
@@ -43,7 +43,6 @@ export const receiveData = (query, data) => ({
 
 export const fetchAPI = (query, settings) => {
   const url = `https://api.unsplash.com/photos/search/?query=${query}`;
-  // dispatch(req);
   return dispatch => {
     return dispatch({
       type: FETCH,
@@ -60,29 +59,32 @@ export const imageHandling = imageToDOM => ({
   imageToDOM
 });
 
-// PAGE ACTION HANDLERS
-// export const rangeStart = () => {
-//   const { paginationData, pageRange } = this.props;
-//   const start = paginationData.params.page - pageRange;
-//   return start > 0 ? start : 1;
-// };
+// - - - - - - - - - - - - - - - - - - - - PAGE ACTION HANDLERS  - - - - - - - - - - - - - - - - - - - - //
+export const paginationPresets = state => ({
+  type: PAGINATION_PRESETS,
+  state
+});
+export const pagination = () => (dispatch, getState) => {
+  return dispatch(paginationPresets(getState()));
+};
+export const rangeStart = () => state => {
+  const { pageParams, pageRange } = state.searchQueryReducer;
+  const start = pageParams.page - pageRange;
+  return start > 0 ? start : 1;
+};
 // export const rangeEnd = () => {
-//   const { paginationData, pageRange } = this.props;
-//   const pageEnd = paginationData.params.page + pageRange;
+//   const { pageParams, pageRange } = this.props;
+//   const pageEnd = pageParams.page + pageRange;
 
 //   const totalPages = this.totalPages();
 
 //   return pageEnd < totalPages ? pageEnd : totalPages;
 // };
 // export const totalPages = () => {
-//   const { dataHeaders } = this.props;
+//   const { pageHeaders } = this.props;
 
-//   return Math.ceil(
-//     dataHeaders.headers["x-total"] / dataHeaders.headers["x-per-page"]
-//   );
+//   return Math.ceil(pageHeaders["x-total"] / pageHeaders["x-per-page"]);
 // };
-
-// - - - - - - - - - - - - - - - - - - - - PAGE HANDLING  - - - - - - - - - - - - - - - - - - - - //
 // export const nextPage = () => {
 //   const { paginationData } = this.props;
 //   return paginationData.params.page + 1;
@@ -113,10 +115,9 @@ export const imageHandling = imageToDOM => ({
 //   }
 //   return pages;
 // };
-// export const paginationPresets = pload => ({
-//   type: PAGINATION_PRESETS,
-//   pload
-// });
-// export const nextPage = page => dispatch => {
-//   return dispatch(paginationPresets(page + 1));
+
+// const rangeStart = () => (dispatch, getState) => {
+//   // const { paginationData, pageRange } = this.props;
+//   // const start = paginationData.params.page - pageRange;
+//   return start > 0 ? start : 1;
 // };
