@@ -5,7 +5,6 @@ import {
   FETCH_REJECTED,
   QUERY_IMAGE,
   INDIVIDUAL_IMAGE_STATE,
-  // NEXT_PAGE,
   PAGINATION_PRESETS,
   RECEIVE_DATA
 } from "../actions/index";
@@ -16,30 +15,11 @@ const RECEIVE_DATA_REJECTED = "RECEIVE_DATA_REJECTED";
 // change page handler
 
 // search query reducer contains fetch parameters and query
-const searchSettingsDefaultState = {
-  text_query: "dark",
-  imageToDOM: true,
-  settings: {
-    params: {
-      per_page: 12,
-      page: 1,
-      client_id: process.env.REACT_APP_UNSPLASH_KEY
-    }
-  }
-};
 
-const searchQueryReducer = (state = searchSettingsDefaultState, action) => {
+const searchQuery = (state = "dark", action) => {
   switch (action.type) {
     case QUERY_IMAGE:
-      return {
-        ...state,
-        text_query: action.text_query
-      };
-    case INDIVIDUAL_IMAGE_STATE:
-      return {
-        ...state,
-        imageToDOM: action.imageToDOM
-      };
+      return action.text_query;
     default:
       return state;
   }
@@ -51,6 +31,7 @@ const dataDefaultState = {
   pageHeaders: {},
   pageRange: 5,
   isRejected: false,
+  imageToDOM: true,
   err: ""
 };
 
@@ -62,12 +43,14 @@ const promiseReducer = (state = dataDefaultState, action) => {
       return {
         ...state,
         isLoading: false,
-        isRejected: true
+        isRejected: true,
+        imageToDOM: true
       };
     case FETCH_FULFILLED:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        imageToDOM: true
       };
     case RECEIVE_DATA:
       return {
@@ -76,21 +59,28 @@ const promiseReducer = (state = dataDefaultState, action) => {
         imgData: action.imageDataPayload,
         pageHeaders: action.pageHeaders
       };
-    default:
-      return state;
-  }
-};
-const pagination = (state = {}, action) => {
-  switch (action.type) {
-    case PAGINATION_PRESETS:
+    case INDIVIDUAL_IMAGE_STATE:
       return {
         ...state,
-        currentState: action.state
+        imageToDOM: action.imageToDOM
       };
+    case PAGINATION_PRESETS:
+      return action.page;
     default:
       return state;
   }
 };
+// const pagination = (state = {}, action) => {
+//   switch (action.type) {
+//     case PAGINATION_PRESETS:
+//       return {
+//         ...state,
+//         currentState: action.params
+//       };
+//     default:
+//       return state;
+//   }
+// };
 const receiveData = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_DATA_PENDING:
@@ -108,9 +98,9 @@ const receiveData = (state = {}, action) => {
 
 const rootReducer = combineReducers({
   promiseReducer,
-  searchQueryReducer,
-  receiveData,
-  pagination
+  searchQuery,
+  receiveData
+  // pagination
 });
 
 export default rootReducer;

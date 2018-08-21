@@ -2,49 +2,73 @@ import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { pagination } from "../actions/index";
+// import { changePage } from "../actions/index";
 
 class PaginatePage extends Component {
-  componentDidMount() {
-    const { dispatch, pagination } = this.props;
+  rangeStart = () => {
+    const { pageParams, pageRange } = this.props;
+    const start = pageParams.page - pageRange;
+    return start > 0 ? start : 1;
+  };
+  rangeEnd = () => {
+    const { pageParams, pageRange } = this.props;
+    const pageEnd = pageParams.page + pageRange;
 
-    dispatch(pagination());
-  }
-  // rangeStart = () => {
-  //   const { pageParams, pageRange } = this.props;
-  //   const start = pageParams.page - pageRange;
-  //   return start > 0 ? start : 1;
-  // };
-  // rangeEnd = () => {
-  //   const { pageParams, pageRange } = this.props;
-  //   const pageEnd = pageParams.page + pageRange;
+    const totalPages = this.totalPages();
 
-  //   const totalPages = this.totalPages();
+    return pageEnd < totalPages ? pageEnd : totalPages;
+  };
+  totalPages = () => {
+    const { pageHeaders } = this.props;
 
-  //   return pageEnd < totalPages ? pageEnd : totalPages;
-  // };
-  // totalPages = () => {
-  //   const { pageHeaders } = this.props;
+    return Math.ceil(pageHeaders["x-total"] / pageHeaders["x-per-page"]);
+  };
+  hasFirstPage = () => {
+    return this.rangeStart !== 1;
+  };
+  hasLastPage = () => {
+    return this.rangeEnd() < this.totalPages();
+  };
+  hasPrevious = () => {
+    const { pageParams } = this.props;
+    return pageParams.page > 1;
+  };
+  hasNext = () => {
+    const { pageParams } = this.props;
+    return pageParams.page < this.totalPages();
+  };
+  nextPage = () => {
+    const { pageParams } = this.props;
+    return pageParams.page + 1;
+  };
+  previousPage = () => {
+    const { pageParams } = this.props;
+    return pageParams.page - 1;
+  };
+  // NAVIGATION STARTS
 
-  //   return Math.ceil(pageHeaders["x-total"] / pageHeaders["x-per-page"]);
-  // };
-  // handleClick = () => {
-  //   const { pageHeaders, dispatch } = this.props;
-  //   // const page = paginationData.params.page;
-  //   // return dispatch(nextPage(page));
-  // };
+  pages = () => {
+    let pages = [];
+    for (let start = this.rangeStart(); start <= this.rangeEnd(); start++) {
+      pages.push[start];
+    }
+    return pages;
+  };
+  handleClick = page => {
+    const { changePage } = this.props;
+    return changePage(page);
+  };
   render() {
-    const { pageParams, pageHeaders, pageRange } = this.props;
     return (
       <Fragment>
         <p>Hello from Paginate</p>
-        {/* <button type="submit" onClick={}>
+        <button type="submit" onClick={this.handleClick}>
           Previous
-        </button> */}
-        {/* <button type="submit" onClick={this.handleClick}>
+        </button>
+        <button type="submit" onClick={this.handleClick(this.nextPage())}>
           Next
-        </button> */}
-        {/* {console.log(this.rangeEnd())} */}
+        </button>
+        {/* {console.log(this.props.rangeStart())} */}
       </Fragment>
     );
   }
@@ -60,7 +84,7 @@ PaginatePage.propTypes = {
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ pagination, dispatch }, dispatch);
+  bindActionCreators({ dispatch }, dispatch);
 export default connect(
   null,
   mapDispatchToProps

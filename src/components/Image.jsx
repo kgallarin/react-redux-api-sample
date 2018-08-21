@@ -21,6 +21,7 @@ class Image extends Component {
   };
   render() {
     const { dataResponse, imageToDOM } = this.props;
+
     return (
       <Fragment>
         {dataResponse.map(res => (
@@ -30,14 +31,13 @@ class Image extends Component {
                 this.parentElement = parentElement;
               }}
             >
+              {imageToDOM ? <p>Loading . . </p> : ""}
               <img
                 onLoad={this.imgOnload}
                 className={imageToDOM ? "hide" : "show"}
                 alt="/"
                 src={res.urls.regular}
               />
-
-              {imageToDOM ? <p>Loading . . </p> : ""}
             </div>
           </li>
         ))}

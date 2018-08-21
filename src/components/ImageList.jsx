@@ -1,13 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Image from "./Image";
 
 const ImageList = ({ imgData, imageToDOM }) => {
-  const mapData = imgData.map(response => response);
   return (
-    <Fragment>
-      <Image imageToDOM={imageToDOM} dataResponse={mapData} />
-    </Fragment>
+    <ul>
+      <Image imageToDOM={imageToDOM} dataResponse={imgData} />
+    </ul>
   );
 };
 

@@ -10,29 +10,24 @@ import Pagination from "./components/Pagination";
 import "normalize.css/normalize.css";
 import "./styles/App.css";
 
-import { fetchAPI, searchQuery } from "./actions/index";
+import { fetchAPI, createQuery } from "./actions/index";
 
 class App extends Component {
-  static propTypes = {
-    fetchAPI: PropTypes.func.isRequired,
-    searchQuery: PropTypes.func.isRequired,
-    text_query: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    imageToDOM: PropTypes.bool.isRequired,
-    images: PropTypes.array,
-    searchQueryReducer: PropTypes.shape({})
-  };
+  constructor(props) {
+    super(props);
+    this.changePage = this.changePage.bind(this);
+  }
   componentDidMount() {
-    const { params, fetchAPI, text_query } = this.props;
-    fetchAPI(text_query, params);
+    const { fetchAPI, searchQuery } = this.props;
+    fetchAPI(searchQuery);
   }
 
   componentWillReceiveProps(nextProps) {
-    const textQuery = nextProps.text_query;
-    const { text_query, fetchAPI, params } = this.props;
+    const textQuery = nextProps.searchQuery;
+    const { searchQuery, fetchAPI } = this.props;
 
-    if (textQuery !== text_query) {
-      fetchAPI(textQuery, params);
+    if (textQuery !== searchQuery) {
+      fetchAPI(textQuery);
     }
   }
   // expensive live search
@@ -43,17 +38,21 @@ class App extends Component {
   // };
   formSubmit = event => {
     event.preventDefault();
-    const { params, searchQuery } = this.props;
+    const { createQuery } = this.props;
     const defaultsearchQuery = "dark";
 
     let inputTextSubmitted = event.target.elements.inputQuery.value.trim();
 
     if (inputTextSubmitted !== "") {
-      searchQuery(inputTextSubmitted);
+      createQuery(inputTextSubmitted);
       event.target.elements.inputQuery.value = "";
     } else {
-      fetchAPI(defaultsearchQuery, params);
+      fetchAPI(defaultsearchQuery);
     }
+  };
+  changePage = page => {
+    const { fetchAPI, searchQuery } = this.props;
+    fetchAPI(searchQuery, page);
   };
   render() {
     const {
@@ -64,28 +63,28 @@ class App extends Component {
       params,
       pageRange
     } = this.props;
-    // console.log(searchQueryReducer);
     return (
       <div className="App">
         <header className="App-header">
           <form onSubmit={this.formSubmit}>
             <input name="inputQuery" type="text" />
           </form>
-          <h1 className="App-title">Welcome to React</h1>
+          {/* <h1 className="App-title">Welcome to React</h1> */}
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          {/* To get started, edit <code>src/App.js</code> and save to reload. */}
         </p>
         {isLoading ? (
           "Loading data . . ."
         ) : (
           <Fragment>
             <ImageList imageToDOM={imageToDOM} imgData={images} />
-            <Pagination
+            {/* <Pagination
+              changePage={this.changePage}
               pageParams={params}
               pageHeaders={pageHeaders}
               pageRange={pageRange}
-            />
+            /> */}
           </Fragment>
         )}
       </div>
@@ -94,30 +93,32 @@ class App extends Component {
 }
 
 App.defaultProps = {
-  images: [],
-  searchQueryReducer: {}
+  images: []
+};
+App.propTypes = {
+  fetchAPI: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  imageToDOM: PropTypes.bool.isRequired,
+  images: PropTypes.array
 };
 const mapStateToProps = state => {
-  const { searchQueryReducer, promiseReducer, receiveData, pagination } = state;
+  const { searchQuery, promiseReducer, receiveData, pagination } = state;
   // promise data reducer
-  const { isLoading } = promiseReducer;
-  // query and params/settings reducer
-  const { text_query, imageToDOM, settings: params } = searchQueryReducer;
+  const { isLoading, imageToDOM } = promiseReducer;
   // state shape
   const { imgData: images, pageHeaders, pageRange } = receiveData[
-    text_query
+    searchQuery
   ] || {
     dataItems: []
   };
 
   return {
-    searchQueryReducer,
     pageHeaders,
     promiseReducer,
-    text_query,
+    searchQuery,
     imageToDOM,
     images,
-    params,
     pageRange,
     isLoading,
     pagination
@@ -127,7 +128,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       fetchAPI,
-      searchQuery
+      createQuery
     },
     dispatch
   );
