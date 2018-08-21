@@ -38,8 +38,8 @@ class PaginatePage extends Component {
     return page < this.totalPages();
   };
   nextPage = () => {
-    const { page } = this.props;
-    return page + 1;
+    const { page, dispatch } = this.props;
+    return console.log(page + 1);
   };
   previousPage = () => {
     const { page } = this.props;
@@ -59,14 +59,13 @@ class PaginatePage extends Component {
     return changePage(page);
   };
   render() {
-    console.log(this.props.page);
     return (
       <Fragment>
         <p>Hello from Paginate</p>
         <a onClick={e => this.handleClick(this.nextPage())}> Next</a>
-        {/* <button type="submit" onClick={this.handleClick}>
+        <button type="submit" onClick={e => this.handleClick()}>
           Previous
-        </button> */}
+        </button>
         {/* <button type="submit" onClick={this.handleClick(this.nextPage())}> */}
         {/* Next */}
         {/* </button> */}

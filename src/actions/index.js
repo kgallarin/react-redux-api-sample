@@ -33,11 +33,13 @@ export const pageHandler = thePage => ({
   type: PAGINATION_PRESETS,
   thePage
 });
+
+// cant mutate page here
 export const fetchAPI = (query, page) => {
   const url = `https://api.unsplash.com/photos/search/?query=${query}/page=${page}`;
   const settings = {
     params: {
-      per_page: 2,
+      per_page: page,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   };
@@ -51,12 +53,27 @@ export const fetchAPI = (query, page) => {
     });
   };
 };
-
 export const imageHandling = imageToDOM => ({
   type: INDIVIDUAL_IMAGE_STATE,
   imageToDOM
 });
+// create an action that will mutate the <--thePage-->
 
+// const nextPageReturn = (page, incrementPage) => dispatch => {
+//   page + incrementPage;
+//   dispatch();
+// };
+
+// export const pageForDispatch = (state, promiseReducer) => {
+//   const page = state.promiseReducer;
+// };
+
+// export const pageRequestForDispatch = promiseReducer => (
+//   dispatch,
+//   getState
+// ) => {
+//   dispatch([pageForDispatch(getState(), promiseReducer)]);
+// };
 // - - - - - - - - - - - - - - - - - - - - PAGE ACTION HANDLERS  - - - - - - - - - - - - - - - - - - - - //
 // export const paginationPresets = state => ({
 //   type: PAGINATION_PRESETS,

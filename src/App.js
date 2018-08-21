@@ -50,9 +50,9 @@ class App extends Component {
       fetchAPI(defaultsearchQuery);
     }
   };
-  changePage = page => {
-    const { fetchAPI, searchQuery } = this.props;
-    fetchAPI(searchQuery, page);
+  changePage = () => {
+    const { fetchAPI, searchQuery, thePage } = this.props;
+    fetchAPI(searchQuery, thePage);
   };
   render() {
     const {
