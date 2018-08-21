@@ -18,8 +18,8 @@ class App extends Component {
     this.changePage = this.changePage.bind(this);
   }
   componentDidMount() {
-    const { fetchAPI, searchQuery } = this.props;
-    fetchAPI(searchQuery);
+    const { fetchAPI, searchQuery, thePage } = this.props;
+    fetchAPI(searchQuery, thePage);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,9 +60,11 @@ class App extends Component {
       pageHeaders,
       imageToDOM,
       images,
-      params,
+      thePage,
       pageRange
     } = this.props;
+
+    console.log(thePage);
     return (
       <div className="App">
         <header className="App-header">
@@ -79,12 +81,12 @@ class App extends Component {
         ) : (
           <Fragment>
             <ImageList imageToDOM={imageToDOM} imgData={images} />
-            {/* <Pagination
+            <Pagination
               changePage={this.changePage}
-              pageParams={params}
+              page={thePage}
               pageHeaders={pageHeaders}
               pageRange={pageRange}
-            /> */}
+            />
           </Fragment>
         )}
       </div>
@@ -103,9 +105,9 @@ App.propTypes = {
   images: PropTypes.array
 };
 const mapStateToProps = state => {
-  const { searchQuery, promiseReducer, receiveData, pagination } = state;
+  const { searchQuery, promiseReducer, receiveData } = state;
   // promise data reducer
-  const { isLoading, imageToDOM } = promiseReducer;
+  const { isLoading, imageToDOM, thePage } = promiseReducer;
   // state shape
   const { imgData: images, pageHeaders, pageRange } = receiveData[
     searchQuery
@@ -121,7 +123,7 @@ const mapStateToProps = state => {
     images,
     pageRange,
     isLoading,
-    pagination
+    thePage
   };
 };
 const mapDispatchToProps = dispatch =>

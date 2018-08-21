@@ -6,13 +6,13 @@ import { bindActionCreators } from "redux";
 
 class PaginatePage extends Component {
   rangeStart = () => {
-    const { pageParams, pageRange } = this.props;
-    const start = pageParams.page - pageRange;
+    const { page, pageRange } = this.props;
+    const start = page.page - pageRange;
     return start > 0 ? start : 1;
   };
   rangeEnd = () => {
-    const { pageParams, pageRange } = this.props;
-    const pageEnd = pageParams.page + pageRange;
+    const { page, pageRange } = this.props;
+    const pageEnd = page + pageRange;
 
     const totalPages = this.totalPages();
 
@@ -30,20 +30,20 @@ class PaginatePage extends Component {
     return this.rangeEnd() < this.totalPages();
   };
   hasPrevious = () => {
-    const { pageParams } = this.props;
-    return pageParams.page > 1;
+    const { page } = this.props;
+    return page > 1;
   };
   hasNext = () => {
-    const { pageParams } = this.props;
-    return pageParams.page < this.totalPages();
+    const { page } = this.props;
+    return page < this.totalPages();
   };
   nextPage = () => {
-    const { pageParams } = this.props;
-    return pageParams.page + 1;
+    const { page } = this.props;
+    return page + 1;
   };
   previousPage = () => {
-    const { pageParams } = this.props;
-    return pageParams.page - 1;
+    const { page } = this.props;
+    return page - 1;
   };
   // NAVIGATION STARTS
 
@@ -59,15 +59,17 @@ class PaginatePage extends Component {
     return changePage(page);
   };
   render() {
+    console.log(this.props.page);
     return (
       <Fragment>
         <p>Hello from Paginate</p>
-        <button type="submit" onClick={this.handleClick}>
+        <a onClick={e => this.handleClick(this.nextPage())}> Next</a>
+        {/* <button type="submit" onClick={this.handleClick}>
           Previous
-        </button>
-        <button type="submit" onClick={this.handleClick(this.nextPage())}>
-          Next
-        </button>
+        </button> */}
+        {/* <button type="submit" onClick={this.handleClick(this.nextPage())}> */}
+        {/* Next */}
+        {/* </button> */}
         {/* {console.log(this.props.rangeStart())} */}
       </Fragment>
     );

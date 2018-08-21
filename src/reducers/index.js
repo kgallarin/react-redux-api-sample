@@ -32,7 +32,8 @@ const dataDefaultState = {
   pageRange: 5,
   isRejected: false,
   imageToDOM: true,
-  err: ""
+  err: "",
+  thePage: 1
 };
 
 const promiseReducer = (state = dataDefaultState, action) => {
@@ -57,31 +58,35 @@ const promiseReducer = (state = dataDefaultState, action) => {
         ...state,
         isLoading: false,
         imgData: action.imageDataPayload,
-        pageHeaders: action.pageHeaders
+        pageHeaders: action.pageHeaders,
+        thePage: action.thePage
       };
     case INDIVIDUAL_IMAGE_STATE:
       return {
         ...state,
         imageToDOM: action.imageToDOM
       };
-    case PAGINATION_PRESETS:
-      return action.page;
     default:
       return state;
   }
 };
-// const pagination = (state = {}, action) => {
-//   switch (action.type) {
-//     case PAGINATION_PRESETS:
-//       return {
-//         ...state,
-//         currentState: action.params
-//       };
-//     default:
-//       return state;
-//   }
-// };
-const receiveData = (state = {}, action) => {
+const pagination = (state = {}, action) => {
+  switch (action.type) {
+    case PAGINATION_PRESETS:
+      return {
+        ...state,
+        currentState: action.params
+      };
+    default:
+      return state;
+  }
+};
+const receiveData = (
+  state = {
+    thePage: "1"
+  },
+  action
+) => {
   switch (action.type) {
     case RECEIVE_DATA_PENDING:
     case RECEIVE_DATA_REJECTED:
@@ -91,6 +96,7 @@ const receiveData = (state = {}, action) => {
         ...state,
         [action.query]: promiseReducer(state[action.query], action)
       };
+
     default:
       return state;
   }
@@ -99,8 +105,8 @@ const receiveData = (state = {}, action) => {
 const rootReducer = combineReducers({
   promiseReducer,
   searchQuery,
-  receiveData
-  // pagination
+  receiveData,
+  pagination
 });
 
 export default rootReducer;

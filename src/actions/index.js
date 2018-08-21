@@ -21,23 +21,23 @@ export const createQuery = text_query => ({
   text_query
 });
 
-export const receiveData = (query, data) => ({
+export const receiveData = (query, data, thePage) => ({
   type: RECEIVE_DATA,
   imageDataPayload: data.data.map(response => response),
   pageHeaders: data.headers,
-  query
+  query,
+  thePage
 });
 
-export const pageHandler = page => ({
+export const pageHandler = thePage => ({
   type: PAGINATION_PRESETS,
-  page
+  thePage
 });
 export const fetchAPI = (query, page) => {
-  const url = `https://api.unsplash.com/photos/search/?query=${query}`;
+  const url = `https://api.unsplash.com/photos/search/?query=${query}/page=${page}`;
   const settings = {
     params: {
       per_page: 2,
-      page: page,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   };
@@ -46,8 +46,7 @@ export const fetchAPI = (query, page) => {
       type: FETCH,
       payload: axios.get(url, settings)
     }).then(({ value, action }) => {
-      dispatch(receiveData(query, value));
-      dispatch(pageHandler(page));
+      dispatch(receiveData(query, value, page));
       // console.log(action.type, " :=> action");
     });
   };
