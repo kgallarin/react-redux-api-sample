@@ -4,11 +4,11 @@ img {
   float: left;
 }
 
-.hide {
+.image-container__img--hide {
   opacity: 0;
 }
 
-.show {
+.image-container__img--show {
   animation: fadeIn 2s;
 }
 

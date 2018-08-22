@@ -7,7 +7,6 @@ import { imageHandling } from "../actions/index";
 class Image extends Component {
   allImagesLoaded = parentNodeElement => {
     const allImages = parentNodeElement.querySelectorAll("img");
-
     for (const img of allImages) {
       if (!img.complete) {
         return false;
@@ -24,23 +23,24 @@ class Image extends Component {
 
     return (
       <Fragment>
-        {dataResponse.map(res => (
-          <li key={res.id}>
-            <div
-              ref={parentElement => {
-                this.parentElement = parentElement;
-              }}
-            >
-              {imageToDOM ? <p>Loading . . </p> : ""}
-              <img
-                onLoad={this.imgOnload}
-                className={imageToDOM ? "hide" : "show"}
-                alt="/"
-                src={res.urls.regular}
-              />
-            </div>
-          </li>
-        ))}
+        <div
+          className="image-container"
+          ref={parentElement => {
+            this.parentElement = parentElement;
+          }}
+        >
+          {imageToDOM ? <p>Loading . . </p> : ""}
+          <img
+            onLoad={this.imgOnload}
+            className={
+              imageToDOM
+                ? "image-container__img--hide"
+                : "image-container__img--show"
+            }
+            alt="/"
+            src={dataResponse.urls.full}
+          />
+        </div>
       </Fragment>
     );
   }
@@ -48,8 +48,10 @@ class Image extends Component {
 
 Image.propTypes = {
   imageHandling: PropTypes.func.isRequired,
-  dataResponse: PropTypes.array.isRequired,
-  imageToDOM: PropTypes.bool.isRequired
+  imageToDOM: PropTypes.bool.isRequired,
+  dataResponse: PropTypes.shape({
+    urls: PropTypes.string
+  }).isRequired
 };
 
 const mapDispatchToProps = dispatch =>

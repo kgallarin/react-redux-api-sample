@@ -2,17 +2,22 @@ img{
     width:100%;
     max-width: 33.33%;
     float: left;
-    // max-height: 150px;
-    // height: 250px;
 }
+.image-container{
 
-.hide{
-    opacity:0;
+}
+.image-container__text{
+
+}
+.image-container__img--hide {
+    opacity: 0;
+}
+.image-container__img--show {
+    animation: fadeIn 2s;
 }
 
 .show {
     // display: block;
-    animation:fadeIn 2s;
 }
 
 @keyframes fadeIn {

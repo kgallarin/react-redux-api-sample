@@ -2,6 +2,7 @@ import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 
 class PaginatePage extends Component {
+  // - - - - - - - - - - Page initialization - - - - - - - - - -
   rangeStart = () => {
     const { page, pageRange } = this.props;
     const start = page - pageRange;
@@ -20,6 +21,7 @@ class PaginatePage extends Component {
 
     return Math.ceil(pageHeaders["x-total"] / pageHeaders["x-per-page"]);
   };
+  // - - - - - - - - - - - - - Page conditions - - - - - - - - - - - - -
   hasFirstPage = () => {
     return this.rangeStart !== 1;
   };
@@ -34,6 +36,8 @@ class PaginatePage extends Component {
     const { page } = this.props;
     return page < this.totalPages();
   };
+
+  // - - - - - - - - - - - - - Page navigation - - - - - - - - - - - - -
   nextPage = () => {
     const { page } = this.props;
     return page + 1;
@@ -42,8 +46,7 @@ class PaginatePage extends Component {
     const { page } = this.props;
     return page - 1;
   };
-  // NAVIGATION STARTS
-
+  // - - - - - - - - - - - - - Page number render - - - - - - - - - - - - -
   pages = () => {
     let pages = [];
     for (let start = this.rangeStart(); start <= this.rangeEnd(); start++) {
@@ -51,27 +54,23 @@ class PaginatePage extends Component {
     }
     return pages;
   };
+  // - - - - - - - - - - - - - Main action Creator - - - - - - - - - - - - -
   handleClick = page => {
     const { changePage } = this.props;
     return changePage(page);
   };
   render() {
     const { page } = this.props;
-    console.log(this.rangeStart(), ":==>RangeStart");
-    console.log(this.rangeEnd(), ":==>RangeEnd");
     return (
       <Fragment>
         <p>Hello from Paginate</p>
         {/* previous button */}
-        <button
-          type="submit"
-          onClick={e => this.handleClick(this.previousPage())}
-        >
+        <button type="submit" onClick={this.handleClick(this.previousPage())}>
           Previous
         </button>
         {/* pages render */}
         {this.pages().map(result => (
-          <button type="submit" onClick={e => this.handleClick(result)}>
+          <button key={result} type="submit" onClick={this.handleClick(result)}>
             {result}
           </button>
         ))}
@@ -83,6 +82,7 @@ class PaginatePage extends Component {
         <p>{`Hello this is page: ${page}`}</p>
       </Fragment>
     );
+    3;
   }
 }
 

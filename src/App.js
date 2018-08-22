@@ -52,7 +52,6 @@ class App extends Component {
   };
   changePage(page) {
     const { fetchAPI, searchQuery } = this.props;
-    // console.log(page, ";==page");
     fetchAPI(searchQuery, page);
   }
   render() {
@@ -98,7 +97,16 @@ App.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
   imageToDOM: PropTypes.bool.isRequired,
-  images: PropTypes.array
+  pageRange: PropTypes.number.isRequired,
+  thePage: PropTypes.number.isRequired,
+  images: PropTypes.shape({
+    id: PropTypes.number,
+    urls: PropTypes.string
+  }),
+  pageHeaders: PropTypes.shape({
+    ["x-total"]: PropTypes.number
+  }).isRequired,
+  createQuery: PropTypes.func.isRequired
 };
 const mapStateToProps = state => {
   const { searchQuery, promiseReducer, receiveData } = state;

@@ -12,18 +12,13 @@ export const RECEIVE_DATA = "RECEIVE_DATA";
 export const INDIVIDUAL_IMAGE_STATE = "INDIVIDUAL_IMAGE_STATE";
 
 // 🎬 FETCH STARTS
+// reducer = searchQuery = (state = "dark", action) => {...};
 export const createQuery = text_query => ({
   type: QUERY_IMAGE,
   text_query
 });
-export const receiveData = (query, data, thePage) => ({
-  type: RECEIVE_DATA,
-  imageDataPayload: data.data.map(response => response),
-  pageHeaders: data.headers,
-  query,
-  thePage
-});
-// cant mutate page here
+
+// reducer = promiseReducer = (state = dataDefaultState, action) => {...};
 export const fetchAPI = (query, page) => {
   const url = `https://api.unsplash.com/photos/search/?query=${query}&page=${page}`;
   const settings = {
@@ -42,7 +37,17 @@ export const fetchAPI = (query, page) => {
     });
   };
 };
+// reducer = promiseReducer = (state = dataDefaultState, action) => {...};
 export const imageHandling = imageToDOM => ({
   type: INDIVIDUAL_IMAGE_STATE,
   imageToDOM
+});
+
+// reducer = receiveData = (state = {}, action) => {...};
+export const receiveData = (query, data, thePage) => ({
+  type: RECEIVE_DATA,
+  imageDataPayload: data.data.map(response => response),
+  pageHeaders: data.headers,
+  query,
+  thePage
 });

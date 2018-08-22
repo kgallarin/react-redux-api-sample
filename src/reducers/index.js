@@ -11,10 +11,8 @@ import {
 const RECEIVE_DATA_PENDING = "RECEIVE_DATA_PENDING";
 const RECEIVE_DATA_FULFILLED = "RECEIVE_DATA_FULFILLED";
 const RECEIVE_DATA_REJECTED = "RECEIVE_DATA_REJECTED";
-// change page handler
 
-// search query reducer contains fetch parameters and query
-
+// - - - Search query  - - > action = createQuery = text_query => ({...});
 const searchQuery = (state = "dark", action) => {
   switch (action.type) {
     case QUERY_IMAGE:
@@ -23,7 +21,8 @@ const searchQuery = (state = "dark", action) => {
       return state;
   }
 };
-// data reducer contains data fetching payload
+
+// - - Promise Reducer contains data fetching payload - - action = fetchAPI = (query, page) => {...};
 const dataDefaultState = {
   isLoading: true,
   imgData: [],
@@ -34,7 +33,6 @@ const dataDefaultState = {
   err: "",
   thePage: 1
 };
-
 const promiseReducer = (state = dataDefaultState, action) => {
   switch (action.type) {
     case FETCH_PENDING:
@@ -69,6 +67,8 @@ const promiseReducer = (state = dataDefaultState, action) => {
       return state;
   }
 };
+
+// - - - Receive Data Reducer - - > action = receiveData = (query, data, thePage) => ({...});
 const receiveData = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_DATA_PENDING:
