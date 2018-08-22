@@ -81,12 +81,7 @@ const pagination = (state = {}, action) => {
       return state;
   }
 };
-const receiveData = (
-  state = {
-    thePage: "1"
-  },
-  action
-) => {
+const receiveData = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_DATA_PENDING:
     case RECEIVE_DATA_REJECTED:

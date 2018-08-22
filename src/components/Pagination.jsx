@@ -38,8 +38,8 @@ class PaginatePage extends Component {
     return page < this.totalPages();
   };
   nextPage = () => {
-    const { page, dispatch } = this.props;
-    return console.log(page + 1);
+    const { page } = this.props;
+    return page + 1;
   };
   previousPage = () => {
     const { page } = this.props;
@@ -63,7 +63,10 @@ class PaginatePage extends Component {
       <Fragment>
         <p>Hello from Paginate</p>
         <a onClick={e => this.handleClick(this.nextPage())}> Next</a>
-        <button type="submit" onClick={e => this.handleClick()}>
+        <button
+          type="submit"
+          onClick={e => this.handleClick(this.previousPage())}
+        >
           Previous
         </button>
         {/* <button type="submit" onClick={this.handleClick(this.nextPage())}> */}
@@ -84,9 +87,4 @@ PaginatePage.propTypes = {
   pageHeaders: PropTypes.object
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ dispatch }, dispatch);
-export default connect(
-  null,
-  mapDispatchToProps
-)(PaginatePage);
+export default connect(null)(PaginatePage);

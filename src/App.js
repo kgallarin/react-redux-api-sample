@@ -24,10 +24,10 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps) {
     const textQuery = nextProps.searchQuery;
-    const { searchQuery, fetchAPI } = this.props;
+    const { searchQuery, fetchAPI, thePage } = this.props;
 
     if (textQuery !== searchQuery) {
-      fetchAPI(textQuery);
+      fetchAPI(textQuery, thePage);
     }
   }
   // expensive live search
@@ -50,10 +50,11 @@ class App extends Component {
       fetchAPI(defaultsearchQuery);
     }
   };
-  changePage = () => {
-    const { fetchAPI, searchQuery, thePage } = this.props;
-    fetchAPI(searchQuery, thePage);
-  };
+  changePage(page) {
+    const { fetchAPI, searchQuery } = this.props;
+    // console.log(page, ";==page");
+    fetchAPI(searchQuery, page);
+  }
   render() {
     const {
       isLoading,
@@ -71,11 +72,8 @@ class App extends Component {
           <form onSubmit={this.formSubmit}>
             <input name="inputQuery" type="text" />
           </form>
-          {/* <h1 className="App-title">Welcome to React</h1> */}
         </header>
-        <p className="App-intro">
-          {/* To get started, edit <code>src/App.js</code> and save to reload. */}
-        </p>
+        <p className="App-intro" />
         {isLoading ? (
           "Loading data . . ."
         ) : (
