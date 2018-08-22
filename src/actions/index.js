@@ -1,26 +1,21 @@
 import axios from "axios";
 
-export const FETCH = "FETCH";
-
 export const QUERY_IMAGE = "QUERY_IMAGE";
-export const INPUT_TEXT = "INPUT_TEXT";
-export const INDIVIDUAL_IMAGE_STATE = "INDIVIDUAL_IMAGE_STATE";
-
 // promise;
+export const FETCH = "FETCH";
 export const FETCH_FULFILLED = "FETCH_FULFILLED";
 export const FETCH_PENDING = "FETCH_PENDING";
 export const FETCH_REJECTED = "FETCH_REJECTED";
-
 export const RECEIVE_DATA = "RECEIVE_DATA";
-// page change
-export const PAGINATION_PRESETS = "PAGINATION_PRESETS";
+
+// image if fully injected
+export const INDIVIDUAL_IMAGE_STATE = "INDIVIDUAL_IMAGE_STATE";
 
 // 🎬 FETCH STARTS
 export const createQuery = text_query => ({
   type: QUERY_IMAGE,
   text_query
 });
-
 export const receiveData = (query, data, thePage) => ({
   type: RECEIVE_DATA,
   imageDataPayload: data.data.map(response => response),
@@ -28,12 +23,6 @@ export const receiveData = (query, data, thePage) => ({
   query,
   thePage
 });
-
-export const pageHandler = thePage => ({
-  type: PAGINATION_PRESETS,
-  thePage
-});
-
 // cant mutate page here
 export const fetchAPI = (query, page) => {
   const url = `https://api.unsplash.com/photos/search/?query=${query}&page=${page}`;

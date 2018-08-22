@@ -1,13 +1,10 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-// import { changePage } from "../actions/index";
 
 class PaginatePage extends Component {
   rangeStart = () => {
     const { page, pageRange } = this.props;
-    const start = page.page - pageRange;
+    const start = page - pageRange;
     return start > 0 ? start : 1;
   };
   rangeEnd = () => {
@@ -50,7 +47,7 @@ class PaginatePage extends Component {
   pages = () => {
     let pages = [];
     for (let start = this.rangeStart(); start <= this.rangeEnd(); start++) {
-      pages.push[start];
+      pages.push(start);
     }
     return pages;
   };
@@ -59,27 +56,37 @@ class PaginatePage extends Component {
     return changePage(page);
   };
   render() {
+    const { page } = this.props;
+    console.log(this.rangeStart(), ":==>RangeStart");
+    console.log(this.rangeEnd(), ":==>RangeEnd");
     return (
       <Fragment>
         <p>Hello from Paginate</p>
-        <a onClick={e => this.handleClick(this.nextPage())}> Next</a>
+        {/* previous button */}
         <button
           type="submit"
           onClick={e => this.handleClick(this.previousPage())}
         >
           Previous
         </button>
-        {/* <button type="submit" onClick={this.handleClick(this.nextPage())}> */}
-        {/* Next */}
-        {/* </button> */}
-        {/* {console.log(this.props.rangeStart())} */}
+        {/* pages render */}
+        {this.pages().map(result => (
+          <button type="submit" onClick={e => this.handleClick(result)}>
+            {result}
+          </button>
+        ))}
+        {/* next button */}
+        <button type="submit" onClick={e => this.handleClick(this.nextPage())}>
+          Next
+        </button>
+
+        <p>{`Hello this is page: ${page}`}</p>
       </Fragment>
     );
   }
 }
 
 PaginatePage.defaultProps = {
-  pageRange: 5,
   pageHeaders: {}
 };
 PaginatePage.propTypes = {
@@ -87,4 +94,4 @@ PaginatePage.propTypes = {
   pageHeaders: PropTypes.object
 };
 
-export default connect(null)(PaginatePage);
+export default PaginatePage;

@@ -5,7 +5,6 @@ import {
   FETCH_REJECTED,
   QUERY_IMAGE,
   INDIVIDUAL_IMAGE_STATE,
-  PAGINATION_PRESETS,
   RECEIVE_DATA
 } from "../actions/index";
 
@@ -70,17 +69,6 @@ const promiseReducer = (state = dataDefaultState, action) => {
       return state;
   }
 };
-const pagination = (state = {}, action) => {
-  switch (action.type) {
-    case PAGINATION_PRESETS:
-      return {
-        ...state,
-        currentState: action.params
-      };
-    default:
-      return state;
-  }
-};
 const receiveData = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_DATA_PENDING:
@@ -100,8 +88,7 @@ const receiveData = (state = {}, action) => {
 const rootReducer = combineReducers({
   promiseReducer,
   searchQuery,
-  receiveData,
-  pagination
+  receiveData
 });
 
 export default rootReducer;

@@ -64,8 +64,6 @@ class App extends Component {
       thePage,
       pageRange
     } = this.props;
-
-    console.log(thePage);
     return (
       <div className="App">
         <header className="App-header">
