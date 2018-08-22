@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class PaginatePage extends Component {
@@ -18,8 +18,9 @@ class PaginatePage extends Component {
   };
   totalPages = () => {
     const { pageHeaders } = this.props;
-
-    return Math.ceil(pageHeaders["x-total"] / pageHeaders["x-per-page"]);
+    const headersTotal = pageHeaders["x-total"];
+    const headersPerPage = pageHeaders["x-per-page"];
+    return Math.ceil(headersTotal / headersPerPage);
   };
   // - - - - - - - - - - - - - Page conditions - - - - - - - - - - - - -
   hasFirstPage = () => {
@@ -62,27 +63,33 @@ class PaginatePage extends Component {
   render() {
     const { page } = this.props;
     return (
-      <Fragment>
+      <div className="pagination-container">
         <p>Hello from Paginate</p>
         {/* previous button */}
-        <button type="submit" onClick={this.handleClick(this.previousPage())}>
+        <button
+          type="submit"
+          onClick={() => this.handleClick(this.previousPage())}
+        >
           Previous
         </button>
         {/* pages render */}
         {this.pages().map(result => (
-          <button key={result} type="submit" onClick={this.handleClick(result)}>
+          <button
+            key={result}
+            type="submit"
+            onClick={() => this.handleClick(result)}
+          >
             {result}
           </button>
         ))}
         {/* next button */}
-        <button type="submit" onClick={e => this.handleClick(this.nextPage())}>
+        <button type="submit" onClick={() => this.handleClick(this.nextPage())}>
           Next
         </button>
 
         <p>{`Hello this is page: ${page}`}</p>
-      </Fragment>
+      </div>
     );
-    3;
   }
 }
 
@@ -90,8 +97,13 @@ PaginatePage.defaultProps = {
   pageHeaders: {}
 };
 PaginatePage.propTypes = {
-  // pageRange: PropTypes.number,
-  pageHeaders: PropTypes.object
+  pageRange: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  changePage: PropTypes.func.isRequired,
+  pageHeaders: PropTypes.shape({
+    headersTotal: PropTypes.string,
+    headersPerPage: PropTypes.string
+  })
 };
 
 export default PaginatePage;

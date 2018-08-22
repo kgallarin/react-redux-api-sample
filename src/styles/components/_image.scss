@@ -1,21 +1,37 @@
-img{
-    width:100%;
-    max-width: 33.33%;
-    float: left;
-}
 .image-container{
+    margin:0;
+    padding:0;
+}
+.image-container:after {
+    visibility: hidden;
+    display: block;
+    content: "";
+    clear: both;
+    height: 0;
+}
+.image-container-list {
+    float: left;
+    width: 33.33%;
+}
+.image-container-list__inner{
 
 }
-.image-container__text{
+.image-container-list__inner__text {
 
 }
-.image-container__img--hide {
+.image-container-list__inner__img--hide {
     opacity: 0;
 }
-.image-container__img--show {
-    animation: fadeIn 2s;
+.image-container-list__inner__img--show {
+    animation: fadeIn 400ms ease-in;
+    opacity: 1;
 }
 
+img {
+    width: 100%;
+    display: block;
+    height: 150px;
+}
 .show {
     // display: block;
 }

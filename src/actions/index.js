@@ -23,7 +23,7 @@ export const fetchAPI = (query, page) => {
   const url = `https://api.unsplash.com/photos/search/?query=${query}&page=${page}`;
   const settings = {
     params: {
-      per_page: 5,
+      per_page: 6,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   };

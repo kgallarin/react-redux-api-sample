@@ -24,10 +24,9 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps) {
     const textQuery = nextProps.searchQuery;
-    const { searchQuery, fetchAPI, thePage } = this.props;
-
+    const { searchQuery, fetchAPI } = this.props;
     if (textQuery !== searchQuery) {
-      fetchAPI(textQuery, thePage);
+      fetchAPI(textQuery, 1); //reset page to 1
     }
   }
   // expensive live search
@@ -70,7 +69,7 @@ class App extends Component {
             <input name="inputQuery" type="text" />
           </form>
         </header>
-        <p className="App-intro" />
+        <p className="App-intro" />{" "}
         {isLoading ? (
           "Loading data . . ."
         ) : (
@@ -90,22 +89,25 @@ class App extends Component {
 }
 
 App.defaultProps = {
-  images: []
+  images: [],
+  pageRange: 0,
+  pageHeaders: {}
 };
 App.propTypes = {
   fetchAPI: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
   imageToDOM: PropTypes.bool.isRequired,
-  pageRange: PropTypes.number.isRequired,
+  pageRange: PropTypes.number,
   thePage: PropTypes.number.isRequired,
-  images: PropTypes.shape({
-    id: PropTypes.number,
-    urls: PropTypes.string
-  }),
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string
+    })
+  ),
   pageHeaders: PropTypes.shape({
-    ["x-total"]: PropTypes.number
-  }).isRequired,
+    xtotal: PropTypes.string
+  }),
   createQuery: PropTypes.func.isRequired
 };
 const mapStateToProps = state => {

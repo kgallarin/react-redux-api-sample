@@ -1,20 +1,66 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Image from "./Image";
+import { imageHandling } from "../actions/index";
 
-const ImageList = ({ imgData, imageToDOM }) => {
-  const render = imgData.map(imgData => (
-    <li key={imgData.id}>
-      <Image imageToDOM={imageToDOM} dataResponse={imgData} />
-    </li>
-  ));
-  return <ul>{render}</ul>;
+class ImageList extends Component {
+  allImagesLoaded = parentNodeElement => {
+    const allImages = parentNodeElement.querySelectorAll("img");
+    for (const img of allImages) {
+      if (!img.complete) {
+        return false;
+      }
+    }
+    return true;
+  };
+  imgOnload = () => {
+    const { imageHandling } = this.props;
+    imageHandling(!this.allImagesLoaded(this.parentElement));
+  };
+  render() {
+    const { imgData, imageToDOM } = this.props;
+    const render = imgData.map(imgData => (
+      <li key={imgData.id} className="image-container-list">
+        <Image
+          imageToDOM={imageToDOM}
+          dataResponse={imgData}
+          onLoad={this.imgOnload}
+        />
+      </li>
+    ));
+    return (
+      <ul className="image-container">
+        <div
+          className="image-container-list__inner"
+          ref={parentElement => {
+            this.parentElement = parentElement;
+          }}
+        >
+          {render}
+        </div>
+      </ul>
+    );
+  }
+}
+ImageList.defaultProps = {
+  imgData: {}
 };
-
 ImageList.propTypes = {
-  imgData: PropTypes.shape({
-    id: PropTypes.number
-  }).isRequired,
-  imageToDOM: PropTypes.bool.isRequired
+  imageHandling: PropTypes.func.isRequired,
+  imageToDOM: PropTypes.bool.isRequired,
+  imgData: PropTypes.arrayOf(
+    PropTypes.shape({
+      urls: PropTypes.object
+    })
+  )
 };
-export default ImageList;
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ imageHandling }, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ImageList);
