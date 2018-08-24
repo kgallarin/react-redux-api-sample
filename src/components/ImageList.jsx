@@ -21,8 +21,8 @@ class ImageList extends Component {
   };
   render() {
     const { imgData, imageToDOM } = this.props;
-    const render = imgData.map(imgData => (
-      <li key={imgData.id} className="image-container-list">
+    const render = imgData.map((imgData, key) => (
+      <li key={key} className="image-container-list">
         <Image
           imageToDOM={imageToDOM}
           dataResponse={imgData}

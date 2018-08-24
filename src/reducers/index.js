@@ -13,7 +13,7 @@ const RECEIVE_DATA_FULFILLED = "RECEIVE_DATA_FULFILLED";
 const RECEIVE_DATA_REJECTED = "RECEIVE_DATA_REJECTED";
 
 // - - - Search query  - - > action = createQuery = text_query => ({...});
-const searchQuery = (state = "dark", action) => {
+const searchQuery = (state = "phone", action) => {
   switch (action.type) {
     case QUERY_IMAGE:
       return action.text_query;
@@ -42,7 +42,8 @@ const promiseReducer = (state = dataDefaultState, action) => {
         ...state,
         isLoading: false,
         isRejected: true,
-        imageToDOM: true
+        imageToDOM: true,
+        err: action.err
       };
     case FETCH_FULFILLED:
       return {
@@ -54,7 +55,7 @@ const promiseReducer = (state = dataDefaultState, action) => {
       return {
         ...state,
         isLoading: false,
-        imgData: action.imageDataPayload,
+        imgData: [...state.imgData, ...action.imageDataPayload],
         pageHeaders: action.pageHeaders,
         thePage: action.thePage
       };

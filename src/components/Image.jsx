@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import LazyLoad from "react-lazyload";
 
-const Image = ({ dataResponse, imageToDOM, onLoad }) => {
-  // console.log(dataResponse, "DATARESPONSE");
+const Image = ({ dataResponse, imageToDOM }) => {
   return (
     <Fragment>
-      {imageToDOM ? (
+      {/* {imageToDOM ? (
         <p className="image-container-list__inner__text">Loading . . </p>
       ) : (
         ""
@@ -19,7 +19,24 @@ const Image = ({ dataResponse, imageToDOM, onLoad }) => {
         }
         alt="/"
         src={dataResponse.urls.regular}
-      />
+      /> */}
+      <LazyLoad
+        height={200}
+        placeholder={<h1>I am placeholder</h1>}
+        offset={[-200, 0]}
+        debounce={1500}
+      >
+        <img
+          // onLoad={onLoad}
+          // className={
+          //   imageToDOM
+          //     ? "image-container-list__inner__img--hide"
+          //     : "image-container-list__inner__img--show"
+          // }
+          alt="/"
+          src={dataResponse.urls.regular}
+        />
+      </LazyLoad>
     </Fragment>
   );
 };

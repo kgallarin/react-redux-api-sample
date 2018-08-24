@@ -49,10 +49,16 @@ class App extends Component {
       fetchAPI(defaultsearchQuery);
     }
   };
-  changePage(page) {
-    const { fetchAPI, searchQuery } = this.props;
-    fetchAPI(searchQuery, page);
-  }
+  changePage = page => {
+    const { fetchAPI, searchQuery, thePage } = this.props;
+    if (thePage !== page) {
+      fetchAPI(searchQuery, page);
+    }
+  };
+  loadMore = () => {
+    const { thePage } = this.props;
+    return thePage + 1;
+  };
   render() {
     const {
       isLoading,
@@ -69,20 +75,32 @@ class App extends Component {
             <input name="inputQuery" type="text" />
           </form>
         </header>
-        <p className="App-intro" />{" "}
+        <p className="App-intro" />
         {isLoading ? (
-          "Loading data . . ."
+          <Fragment>
+            <ImageList imageToDOM={imageToDOM} imgData={images} />{" "}
+            <p> Loading data . . . </p>
+          </Fragment>
         ) : (
           <Fragment>
             <ImageList imageToDOM={imageToDOM} imgData={images} />
-            <Pagination
-              changePage={this.changePage}
-              page={thePage}
-              pageHeaders={pageHeaders}
-              pageRange={pageRange}
-            />
           </Fragment>
         )}
+        <Pagination
+          changePage={this.changePage}
+          page={thePage}
+          pageHeaders={pageHeaders}
+          pageRange={pageRange}
+        />
+        <button
+          type="submit"
+          onClick={e => {
+            this.changePage(this.loadMore());
+            e.preventDefault();
+          }}
+        >
+          Load more...{" "}
+        </button>
       </div>
     );
   }

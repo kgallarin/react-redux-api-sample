@@ -83,7 +83,13 @@ class PaginatePage extends Component {
           </button>
         ))}
         {/* next button */}
-        <button type="submit" onClick={() => this.handleClick(this.nextPage())}>
+        <button
+          type="submit"
+          onClick={e => {
+            e.preventDefault();
+            this.handleClick(this.nextPage());
+          }}
+        >
           Next
         </button>
 
