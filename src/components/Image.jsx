@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import LazyLoad from "react-lazyload";
 
-const Image = ({ dataResponse, imageToDOM }) => {
+const Image = ({ dataResponse, imageToDOM, onLoad }) => {
   return (
     <Fragment>
       {/* {imageToDOM ? (
@@ -27,7 +27,7 @@ const Image = ({ dataResponse, imageToDOM }) => {
         debounce={1500}
       >
         <img
-          // onLoad={onLoad}
+          onLoad={onLoad}
           // className={
           //   imageToDOM
           //     ? "image-container-list__inner__img--hide"

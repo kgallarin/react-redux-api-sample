@@ -9,36 +9,32 @@ class PaginatePage extends Component {
     return start > 0 ? start : 1;
   };
   rangeEnd = () => {
-    const { page, pageRange } = this.props;
+    const { page, pageRange, totalPagesFunc } = this.props;
     const pageEnd = page + pageRange;
 
-    const totalPages = this.totalPages();
+    const totalPages = totalPagesFunc();
 
     return pageEnd < totalPages ? pageEnd : totalPages;
   };
-  totalPages = () => {
-    const { pageHeaders } = this.props;
-    const headersTotal = pageHeaders["x-total"];
-    const headersPerPage = pageHeaders["x-per-page"];
-    return Math.ceil(headersTotal / headersPerPage);
-  };
+
   // - - - - - - - - - - - - - Page conditions - - - - - - - - - - - - -
   hasFirstPage = () => {
     return this.rangeStart !== 1;
   };
   hasLastPage = () => {
-    return this.rangeEnd() < this.totalPages();
+    const { totalPagesFunc } = this.props;
+    return this.rangeEnd() < totalPagesFunc();
   };
   hasPrevious = () => {
     const { page } = this.props;
     return page > 1;
   };
   hasNext = () => {
-    const { page } = this.props;
-    return page < this.totalPages();
+    const { page, totalPagesFunc } = this.props;
+    return page < totalPagesFunc();
   };
 
-  // - - - - - - - - - - - - - Page navigation - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - Page navigation - - - - - - - - - - - - - - -
   nextPage = () => {
     const { page } = this.props;
     return page + 1;

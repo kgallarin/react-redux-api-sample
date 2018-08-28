@@ -5,7 +5,8 @@ import {
   FETCH_REJECTED,
   QUERY_IMAGE,
   INDIVIDUAL_IMAGE_STATE,
-  RECEIVE_DATA
+  RECEIVE_DATA,
+  SCROLLING
 } from "../actions/index";
 
 const RECEIVE_DATA_PENDING = "RECEIVE_DATA_PENDING";
@@ -13,7 +14,7 @@ const RECEIVE_DATA_FULFILLED = "RECEIVE_DATA_FULFILLED";
 const RECEIVE_DATA_REJECTED = "RECEIVE_DATA_REJECTED";
 
 // - - - Search query  - - > action = createQuery = text_query => ({...});
-const searchQuery = (state = "phone", action) => {
+const searchQuery = (state = "rainy", action) => {
   switch (action.type) {
     case QUERY_IMAGE:
       return action.text_query;
@@ -31,6 +32,7 @@ const dataDefaultState = {
   isRejected: false,
   imageToDOM: true,
   err: "",
+  scrolling: false,
   thePage: 1
 };
 const promiseReducer = (state = dataDefaultState, action) => {
@@ -58,6 +60,11 @@ const promiseReducer = (state = dataDefaultState, action) => {
         imgData: [...state.imgData, ...action.imageDataPayload],
         pageHeaders: action.pageHeaders,
         thePage: action.thePage
+      };
+    case SCROLLING:
+      return {
+        ...state,
+        scrolling: action.bool
       };
     case INDIVIDUAL_IMAGE_STATE:
       return {

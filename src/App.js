@@ -10,18 +10,20 @@ import Pagination from "./components/Pagination";
 import "normalize.css/normalize.css";
 import "./styles/App.css";
 
-import { fetchAPI, createQuery } from "./actions/index";
+import { fetchAPI, createQuery, isScrolling } from "./actions/index";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.changePage = this.changePage.bind(this);
+  componentWillMount() {
+    const { isScrolling } = this.props;
+    this.scrollListener = window.addEventListener("scroll", e => {
+      this.handleScroll(e);
+      // isScrolling(e);
+    });
   }
   componentDidMount() {
     const { fetchAPI, searchQuery, thePage } = this.props;
     fetchAPI(searchQuery, thePage);
   }
-
   componentWillReceiveProps(nextProps) {
     const textQuery = nextProps.searchQuery;
     const { searchQuery, fetchAPI } = this.props;
@@ -29,12 +31,35 @@ class App extends Component {
       fetchAPI(textQuery, 1); //reset page to 1
     }
   }
+
   // expensive live search
   // inputChange = inputValue => {
   // const { searchQuery } = this.props;
   // const inputText = inputValue.target.value.trim();
   // searchQuery(inputText);
   // };
+  totalPages = () => {
+    const { pageHeaders } = this.props;
+    const headersTotal = pageHeaders["x-total"];
+    const headersPerPage = pageHeaders["x-per-page"];
+    return Math.ceil(headersTotal / headersPerPage);
+  };
+  handleScroll = e => {
+    // const {} = asd;
+    // const { scrolling, thePage } = this.props;
+    console.log(e);
+    // console.log(scrolling);
+    // if (scrolling) return console.log("asd");
+    // if (this.totalPages <= thePage) {
+    //   const lastLi = document.querySelector(
+    //     "ul.image-container > li:lastchild"
+    //   );
+    //   const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+    //   const pageOffset = window.pageYOffset + window.innerHeight;
+    //   let bottomOffset = 20;
+    //   if (pageOffset > lastLiOffset - bottomOffset) this.loadMore();
+    // }
+  };
   formSubmit = event => {
     event.preventDefault();
     const { createQuery } = this.props;
@@ -91,6 +116,7 @@ class App extends Component {
           page={thePage}
           pageHeaders={pageHeaders}
           pageRange={pageRange}
+          totalPagesFunc={this.totalPages}
         />
         <button
           type="submit"
@@ -133,7 +159,7 @@ const mapStateToProps = state => {
   // promise data reducer
   const { isLoading, imageToDOM, thePage } = promiseReducer;
   // state shape
-  const { imgData: images, pageHeaders, pageRange } = receiveData[
+  const { imgData: images, pageHeaders, pageRange, scrolling } = receiveData[
     searchQuery
   ] || {
     dataItems: []
@@ -147,14 +173,16 @@ const mapStateToProps = state => {
     images,
     pageRange,
     isLoading,
-    thePage
+    thePage,
+    scrolling
   };
 };
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       fetchAPI,
-      createQuery
+      createQuery,
+      isScrolling
     },
     dispatch
   );

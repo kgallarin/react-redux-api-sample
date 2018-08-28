@@ -23,25 +23,21 @@ class ImageList extends Component {
     const { imgData, imageToDOM } = this.props;
     const render = imgData.map((imgData, key) => (
       <li key={key} className="image-container-list">
-        <Image
-          imageToDOM={imageToDOM}
-          dataResponse={imgData}
-          onLoad={this.imgOnload}
-        />
-      </li>
-    ));
-    return (
-      <ul className="image-container">
         <div
           className="image-container-list__inner"
           ref={parentElement => {
             this.parentElement = parentElement;
           }}
         >
-          {render}
+          <Image
+            imageToDOM={imageToDOM}
+            dataResponse={imgData}
+            onLoad={this.imgOnload}
+          />
         </div>
-      </ul>
-    );
+      </li>
+    ));
+    return <ul className="image-container">{render}</ul>;
   }
 }
 ImageList.defaultProps = {

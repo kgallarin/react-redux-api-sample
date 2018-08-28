@@ -8,6 +8,8 @@ export const FETCH_PENDING = "FETCH_PENDING";
 export const FETCH_REJECTED = "FETCH_REJECTED";
 export const RECEIVE_DATA = "RECEIVE_DATA";
 
+export const SCROLLING = "SCROLLING";
+
 // image if fully injected
 export const INDIVIDUAL_IMAGE_STATE = "INDIVIDUAL_IMAGE_STATE";
 
@@ -23,7 +25,7 @@ export const fetchAPI = (query, page) => {
   const url = `https://api.unsplash.com/photos/search/?query=${query}&page=${page}`;
   const settings = {
     params: {
-      per_page: 20,
+      per_page: 25,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   };
@@ -50,4 +52,9 @@ export const receiveData = (query, data, thePage) => ({
   pageHeaders: data.headers,
   query,
   thePage
+});
+
+export const isScrolling = bool => ({
+  type: SCROLLING,
+  bool
 });
