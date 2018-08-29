@@ -25,7 +25,7 @@ export const fetchAPI = (query, page) => {
   const url = `https://api.unsplash.com/photos/search/?query=${query}&page=${page}`;
   const settings = {
     params: {
-      per_page: 15,
+      per_page: 6,
       client_id: process.env.REACT_APP_UNSPLASH_KEY
     }
   };
@@ -56,5 +56,5 @@ export const receiveData = (query, data, thePage) => ({
 
 export const isScrolling = event => ({
   type: SCROLLING,
-  payload: event.returnValue
+  payload: event
 });

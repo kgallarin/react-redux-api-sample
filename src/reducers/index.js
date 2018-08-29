@@ -14,7 +14,7 @@ const RECEIVE_DATA_FULFILLED = "RECEIVE_DATA_FULFILLED";
 const RECEIVE_DATA_REJECTED = "RECEIVE_DATA_REJECTED";
 
 // - - - Search query  - - > action = createQuery = text_query => ({...});
-const searchQuery = (state = "rainy", action) => {
+const searchQuery = (state = "kevin", action) => {
   switch (action.type) {
     case QUERY_IMAGE:
       return action.text_query;

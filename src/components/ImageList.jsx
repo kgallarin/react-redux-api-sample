@@ -3,18 +3,18 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Image from "./Image";
-import { imageHandling } from "../actions/index";
+// import { imageHandling } from "../actions/index";
 
 class ImageList extends Component {
-  allImagesLoaded = parentNodeElement => {
-    const allImages = parentNodeElement.querySelectorAll("img");
-    for (const img of allImages) {
-      if (!img.complete) {
-        return false;
-      }
-    }
-    return true;
-  };
+  // allImagesLoaded = parentNodeElement => {
+  //   const allImages = parentNodeElement.querySelectorAll("img");
+  //   for (const img of allImages) {
+  //     if (!img.complete) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // };
   imgOnload = () => {
     const { imageHandling } = this.props;
     imageHandling(!this.allImagesLoaded(this.parentElement));
@@ -32,7 +32,7 @@ class ImageList extends Component {
           <Image
             imageToDOM={imageToDOM}
             dataResponse={imgData}
-            onLoad={this.imgOnload}
+            // onLoad={this.imgOnload}
           />
         </div>
       </li>
@@ -44,7 +44,7 @@ ImageList.defaultProps = {
   imgData: {}
 };
 ImageList.propTypes = {
-  imageHandling: PropTypes.func.isRequired,
+  // imageHandling: PropTypes.func.isRequired,
   imageToDOM: PropTypes.bool.isRequired,
   imgData: PropTypes.arrayOf(
     PropTypes.shape({
@@ -53,10 +53,7 @@ ImageList.propTypes = {
   )
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ imageHandling }, dispatch);
+// const mapDispatchToProps = dispatch =>
+// bindActionCreators({ imageHandling }, dispatch);
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ImageList);
+export default ImageList;

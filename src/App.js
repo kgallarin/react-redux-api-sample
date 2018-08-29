@@ -17,10 +17,10 @@ class App extends Component {
   componentWillMount() {
     const { isScrolling } = this.props;
     this.scrollListener = window.addEventListener("scroll", e => {
-      this.handleScroll(isScrolling(e));
+      this.handleScroll(isScrolling(true));
       // console.log(typeof e);
       // isScrolling(e);
-      console.log(isScrolling(e));
+      // console.log(isScrolling(e));
     });
   }
   componentDidMount() {
@@ -29,7 +29,7 @@ class App extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const textQuery = nextProps.searchQuery;
-    const { searchQuery, fetchAPI } = this.props;
+    const { searchQuery, fetchAPI, thePage } = this.props;
     if (textQuery !== searchQuery) {
       fetchAPI(textQuery, 1); //reset page to 1
     }
@@ -46,28 +46,6 @@ class App extends Component {
     const headersTotal = pageHeaders["x-total"];
     const headersPerPage = pageHeaders["x-per-page"];
     return Math.ceil(headersTotal / headersPerPage);
-  };
-
-  handleScroll = e => {
-    // const {} = asd;
-    const { scrolling, thePage } = this.props;
-    // console.log(scrolling);
-    // console.log(scrolling);
-    if (scrolling) {
-      if (this.totalPages() >= thePage) {
-        const lastLi = document.querySelector(
-          "ul.image-container > li:last-child"
-        );
-        const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
-        const pageOffset = window.pageYOffset + window.innerHeight;
-        let bottomOffset = 5;
-        // console.log(bottomOffset, "==bottomOffset");
-        if (pageOffset > lastLiOffset - bottomOffset) {
-          this.changePage(this.loadMore());
-          console.log("heyyo");
-        }
-      }
-    }
   };
   formSubmit = event => {
     event.preventDefault();
@@ -87,6 +65,25 @@ class App extends Component {
     const { fetchAPI, searchQuery, thePage } = this.props;
     if (thePage !== page) {
       fetchAPI(searchQuery, page);
+    }
+  };
+  handleScroll = e => {
+    const { scrolling, thePage, isScrolling } = this.props;
+    if (scrolling) {
+      if (this.totalPages() >= thePage) {
+        const lastLi = document.querySelector(
+          "ul.image-container > li:last-child"
+        );
+        const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+        const pageOffset = window.pageYOffset + window.innerHeight;
+        let bottomOffset = 0;
+        console.log(pageOffset, "page-offset");
+        console.log(lastLiOffset, "lastLiOffset");
+        if (pageOffset > lastLiOffset - bottomOffset) {
+          this.changePage(this.loadMore());
+          // console.log(pageUpdate);
+        }
+      }
     }
   };
   loadMore = () => {
@@ -153,6 +150,7 @@ App.propTypes = {
   imageToDOM: PropTypes.bool.isRequired,
   pageRange: PropTypes.number,
   thePage: PropTypes.number.isRequired,
+  scrolling: PropTypes.bool.isRequired,
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string
