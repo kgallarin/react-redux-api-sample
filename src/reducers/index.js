@@ -64,7 +64,7 @@ const promiseReducer = (state = dataDefaultState, action) => {
     case SCROLLING:
       return {
         ...state,
-        scrolling: action.bool
+        scrolling: action.payload
       };
     case INDIVIDUAL_IMAGE_STATE:
       return {

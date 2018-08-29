@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 // redux
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+
 // components
 import ImageList from "./components/ImageList";
 import Pagination from "./components/Pagination";
@@ -16,8 +17,10 @@ class App extends Component {
   componentWillMount() {
     const { isScrolling } = this.props;
     this.scrollListener = window.addEventListener("scroll", e => {
-      this.handleScroll(e);
+      this.handleScroll(isScrolling(e));
+      // console.log(typeof e);
       // isScrolling(e);
+      console.log(isScrolling(e));
     });
   }
   componentDidMount() {
@@ -44,21 +47,27 @@ class App extends Component {
     const headersPerPage = pageHeaders["x-per-page"];
     return Math.ceil(headersTotal / headersPerPage);
   };
+
   handleScroll = e => {
     // const {} = asd;
-    // const { scrolling, thePage } = this.props;
-    console.log(e);
+    const { scrolling, thePage } = this.props;
     // console.log(scrolling);
-    // if (scrolling) return console.log("asd");
-    // if (this.totalPages <= thePage) {
-    //   const lastLi = document.querySelector(
-    //     "ul.image-container > li:lastchild"
-    //   );
-    //   const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
-    //   const pageOffset = window.pageYOffset + window.innerHeight;
-    //   let bottomOffset = 20;
-    //   if (pageOffset > lastLiOffset - bottomOffset) this.loadMore();
-    // }
+    // console.log(scrolling);
+    if (scrolling) {
+      if (this.totalPages() >= thePage) {
+        const lastLi = document.querySelector(
+          "ul.image-container > li:last-child"
+        );
+        const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+        const pageOffset = window.pageYOffset + window.innerHeight;
+        let bottomOffset = 5;
+        // console.log(bottomOffset, "==bottomOffset");
+        if (pageOffset > lastLiOffset - bottomOffset) {
+          this.changePage(this.loadMore());
+          console.log("heyyo");
+        }
+      }
+    }
   };
   formSubmit = event => {
     event.preventDefault();
@@ -157,9 +166,9 @@ App.propTypes = {
 const mapStateToProps = state => {
   const { searchQuery, promiseReducer, receiveData } = state;
   // promise data reducer
-  const { isLoading, imageToDOM, thePage } = promiseReducer;
+  const { isLoading, imageToDOM, thePage, scrolling } = promiseReducer;
   // state shape
-  const { imgData: images, pageHeaders, pageRange, scrolling } = receiveData[
+  const { imgData: images, pageHeaders, pageRange } = receiveData[
     searchQuery
   ] || {
     dataItems: []
