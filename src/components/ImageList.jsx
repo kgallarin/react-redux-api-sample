@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import InfiniteScroll from "react-infinite-scroller";
 import Image from "./Image";
 // import { imageHandling } from "../actions/index";
 
@@ -19,9 +20,9 @@ class ImageList extends Component {
     const { imageHandling } = this.props;
     imageHandling(!this.allImagesLoaded(this.parentElement));
   };
-  render() {
+  renderList = () => {
     const { imgData, imageToDOM } = this.props;
-    const render = imgData.map((imgData, key) => (
+    return imgData.map((imgData, key) => (
       <li key={key} className="image-container-list">
         <div
           className="image-container-list__inner"
@@ -37,7 +38,13 @@ class ImageList extends Component {
         </div>
       </li>
     ));
-    return <ul className="image-container">{render}</ul>;
+  };
+  render() {
+    return (
+      <Fragment>
+        <ul className="image-container">{this.renderList()}</ul>
+      </Fragment>
+    );
   }
 }
 ImageList.defaultProps = {

@@ -42,6 +42,7 @@ img {
 
 li {
   list-style: none;
+  height: 100%;
 }
 
 .pagination-container {

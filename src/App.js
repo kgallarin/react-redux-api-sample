@@ -14,7 +14,11 @@ import "./styles/App.css";
 import { fetchAPI, createQuery, isScrolling } from "./actions/index";
 
 class App extends Component {
-  componentWillMount() {}
+  componentWillMount() {
+    window.addEventListener("scroll", e => {
+      this.handleScroll(e);
+    });
+  }
   componentDidMount() {
     const { fetchAPI, searchQuery, thePage } = this.props;
     fetchAPI(searchQuery, thePage);
@@ -26,13 +30,28 @@ class App extends Component {
       fetchAPI(textQuery, 1); //reset page to 1
     }
   }
-
   // expensive live search
   // inputChange = inputValue => {
   // const { searchQuery } = this.props;
   // const inputText = inputValue.target.value.trim();
   // searchQuery(inputText);
   // };
+  handleScroll = e => {
+    // console.log(e);
+    const { scrolling, thePage } = this.props;
+    if (scrolling) return;
+    if (this.totalPages <= thePage) return;
+
+    // scrolling offsets
+    const lastLi = document.querySelector("ul.image-container > li:last-child");
+    const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+    const pageOffset = window.pageYOffset + window.innerHeight;
+    let bottomOffset = 1;
+
+    if (pageOffset > lastLiOffset - bottomOffset) {
+      this.changePage(this.loadMore());
+    }
+  };
   totalPages = () => {
     const { pageHeaders } = this.props;
     const headersTotal = pageHeaders["x-total"];
@@ -80,32 +99,12 @@ class App extends Component {
           </form>
         </header>
         <p className="App-intro" />
-        {isLoading ? (
-          <Fragment>
-            <ImageList imageToDOM={imageToDOM} imgData={images} />{" "}
-            <p> Loading data . . . </p>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <ImageList imageToDOM={imageToDOM} imgData={images} />
-          </Fragment>
-        )}
-        <Pagination
+        <ImageList
           changePage={this.changePage}
           page={thePage}
-          pageHeaders={pageHeaders}
-          pageRange={pageRange}
-          totalPagesFunc={this.totalPages}
+          imageToDOM={imageToDOM}
+          imgData={images}
         />
-        <button
-          type="submit"
-          onClick={e => {
-            this.changePage(this.loadMore());
-            e.preventDefault();
-          }}
-        >
-          Load more...{" "}
-        </button>
       </div>
     );
   }
