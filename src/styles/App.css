@@ -3,32 +3,9 @@
   padding: 0;
 }
 
-.image-container:after {
-  visibility: hidden;
-  display: block;
-  content: "";
-  clear: both;
-  height: 0;
-}
-
-.image-container-list {
-  float: left;
-  width: 50%;
-}
-
-.image-container-list__inner__img--hide {
-  opacity: 0;
-}
-
-.image-container-list__inner__img--show {
-  animation: fadeIn 400ms ease-in;
-  opacity: 1;
-}
-
 img {
   width: 100%;
   display: block;
-  height: 200px;
 }
 
 @keyframes fadeIn {

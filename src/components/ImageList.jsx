@@ -1,30 +1,41 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-// import { connect } from "react-redux";
-// import { bindActionCreators } from "redux";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import { withStyles } from "@material-ui/core/styles";
 import Image from "./Image";
-// import { imageHandling } from "../actions/index";
+
+const styles = theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden"
+  },
+  gridList: {
+    width: 500,
+    height: 450
+  },
+  subheader: {
+    width: "100%"
+  }
+});
 
 class ImageList extends Component {
   renderList = () => {
     const { imgData } = this.props;
     return imgData.map((imgData, key) => (
-      <li key={key} className="image-container-list">
-        <div
-          className="image-container-list__inner"
-          ref={parentElement => {
-            this.parentElement = parentElement;
-          }}
-        >
-          <Image dataResponse={imgData} />
-        </div>
-      </li>
+      <GridListTile key={key}>
+        <Image dataResponse={imgData} />
+      </GridListTile>
     ));
   };
   render() {
     return (
       <Fragment>
-        <ul className="image-container">{this.renderList()}</ul>
+        <GridList cellHeight={160} cols={2}>
+          {this.renderList()}
+        </GridList>
       </Fragment>
     );
   }
@@ -40,4 +51,4 @@ ImageList.propTypes = {
   )
 };
 
-export default ImageList;
+export default withStyles(styles)(ImageList);

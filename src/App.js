@@ -43,7 +43,7 @@ class App extends Component {
     if (err) return;
     if (!isLoading) {
       const lastLi = document.querySelector(
-        "ul.image-container > li:last-child"
+        "ul.MuiGridList-root-4 > li:last-child"
       );
       const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
       const pageOffset = window.pageYOffset + window.innerHeight;
