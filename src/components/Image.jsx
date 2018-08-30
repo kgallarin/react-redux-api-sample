@@ -20,23 +20,22 @@ const Image = ({ dataResponse, imageToDOM }) => {
         alt="/"
         src={dataResponse.urls.regular}
       /> */}
-      {/* <LazyLoad
+      <LazyLoad
         height={200}
-        placeholder={<h1>I am placeholder</h1>}
-        offset={[-200, 0]}
-        debounce={500}
-      > */}
-      <img
-        // onLoad={onLoad}
-        // className={
-        //   imageToDOM
-        //     ? "image-container-list__inner__img--hide"
-        //     : "image-container-list__inner__img--show"
-        // }
-        alt="/"
-        src={dataResponse.urls.regular}
-      />
-      {/* </LazyLoad> */}
+        placeholder={<h1>Loading image</h1>}
+        debounce={100}
+      >
+        <img
+          // onLoad={onLoad}
+          // className={
+          //   imageToDOM
+          //     ? "image-container-list__inner__img--hide"
+          //     : "image-container-list__inner__img--show"
+          // }
+          alt="/"
+          src={dataResponse.urls.regular}
+        />
+      </LazyLoad>
     </Fragment>
   );
 };

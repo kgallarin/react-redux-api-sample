@@ -25,7 +25,7 @@ class App extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const textQuery = nextProps.searchQuery;
-    const { searchQuery, fetchAPI, thePage } = this.props;
+    const { searchQuery, fetchAPI } = this.props;
     if (textQuery !== searchQuery) {
       fetchAPI(textQuery, 1); //reset page to 1
     }
@@ -83,14 +83,7 @@ class App extends Component {
     return thePage + 1;
   };
   render() {
-    const {
-      isLoading,
-      pageHeaders,
-      imageToDOM,
-      images,
-      thePage,
-      pageRange
-    } = this.props;
+    const { imageToDOM, images, thePage } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -112,7 +105,6 @@ class App extends Component {
 
 App.defaultProps = {
   images: [],
-  pageRange: 0,
   pageHeaders: {}
 };
 App.propTypes = {
@@ -120,7 +112,6 @@ App.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
   imageToDOM: PropTypes.bool.isRequired,
-  pageRange: PropTypes.number,
   thePage: PropTypes.number.isRequired,
   scrolling: PropTypes.bool.isRequired,
   images: PropTypes.arrayOf(
