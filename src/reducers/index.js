@@ -6,7 +6,7 @@ import {
   QUERY_IMAGE,
   INDIVIDUAL_IMAGE_STATE,
   RECEIVE_DATA,
-  SCROLLING
+  ERROR
 } from "../actions/index";
 
 const RECEIVE_DATA_PENDING = "RECEIVE_DATA_PENDING";
@@ -29,8 +29,6 @@ const dataDefaultState = {
   imgData: [],
   pageHeaders: {},
   pageRange: 5,
-  isRejected: false,
-  imageToDOM: true,
   err: "",
   scrolling: false,
   thePage: 1
@@ -43,8 +41,11 @@ const promiseReducer = (state = dataDefaultState, action) => {
       return {
         ...state,
         isLoading: false,
-        isRejected: true,
-        imageToDOM: true,
+        imageToDOM: true
+      };
+    case ERROR:
+      return {
+        ...state,
         err: action.err
       };
     case FETCH_FULFILLED:
@@ -60,11 +61,6 @@ const promiseReducer = (state = dataDefaultState, action) => {
         imgData: [...state.imgData, ...action.imageDataPayload],
         pageHeaders: action.pageHeaders,
         thePage: action.thePage
-      };
-    case SCROLLING:
-      return {
-        ...state,
-        scrolling: action.payload
       };
     case INDIVIDUAL_IMAGE_STATE:
       return {

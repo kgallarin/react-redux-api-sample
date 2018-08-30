@@ -8,7 +8,7 @@ export const FETCH_PENDING = "FETCH_PENDING";
 export const FETCH_REJECTED = "FETCH_REJECTED";
 export const RECEIVE_DATA = "RECEIVE_DATA";
 
-export const SCROLLING = "SCROLLING";
+export const ERROR = "ERROR";
 
 // image if fully injected
 export const INDIVIDUAL_IMAGE_STATE = "INDIVIDUAL_IMAGE_STATE";
@@ -33,12 +33,21 @@ export const fetchAPI = (query, page) => {
     return dispatch({
       type: FETCH,
       payload: axios.get(url, settings)
-    }).then(({ value, action }) => {
-      dispatch(receiveData(query, value, page));
-      // console.log(action.type, " :=> action");
-    });
+    })
+      .then(({ value, action }) => {
+        dispatch(receiveData(query, value, page));
+        // console.log(action.type, " :=> action");
+      })
+      .catch(e => {
+        dispatch(errHandler(e));
+      });
   };
 };
+
+export const errHandler = err => ({
+  type: ERROR,
+  err
+});
 // reducer = promiseReducer = (state = dataDefaultState, action) => {...};
 export const imageHandling = imageToDOM => ({
   type: INDIVIDUAL_IMAGE_STATE,
@@ -52,9 +61,4 @@ export const receiveData = (query, data, thePage) => ({
   pageHeaders: data.headers,
   query,
   thePage
-});
-
-export const isScrolling = event => ({
-  type: SCROLLING,
-  payload: event
 });

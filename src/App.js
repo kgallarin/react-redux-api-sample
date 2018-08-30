@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 // redux
 import { bindActionCreators } from "redux";
@@ -6,12 +6,11 @@ import { connect } from "react-redux";
 
 // components
 import ImageList from "./components/ImageList";
-import Pagination from "./components/Pagination";
 // assets
 import "normalize.css/normalize.css";
 import "./styles/App.css";
 
-import { fetchAPI, createQuery, isScrolling } from "./actions/index";
+import { fetchAPI, createQuery } from "./actions/index";
 
 class App extends Component {
   componentWillMount() {
@@ -37,19 +36,21 @@ class App extends Component {
   // searchQuery(inputText);
   // };
   handleScroll = e => {
-    // console.log(e);
-    const { scrolling, thePage } = this.props;
-    if (scrolling) return;
+    const { thePage, err, isLoading } = this.props;
     if (this.totalPages <= thePage) return;
 
     // scrolling offsets
-    const lastLi = document.querySelector("ul.image-container > li:last-child");
-    const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
-    const pageOffset = window.pageYOffset + window.innerHeight;
-    let bottomOffset = 1;
-
-    if (pageOffset > lastLiOffset - bottomOffset) {
-      this.changePage(this.loadMore());
+    if (err) return;
+    if (!isLoading) {
+      const lastLi = document.querySelector(
+        "ul.image-container > li:last-child"
+      );
+      const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+      const pageOffset = window.pageYOffset + window.innerHeight;
+      let bottomOffset = 1;
+      if (pageOffset > lastLiOffset - bottomOffset && !err) {
+        this.changePage(this.loadMore());
+      }
     }
   };
   totalPages = () => {
@@ -83,7 +84,7 @@ class App extends Component {
     return thePage + 1;
   };
   render() {
-    const { imageToDOM, images, thePage } = this.props;
+    const { images, thePage, err, isLoading } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -92,12 +93,21 @@ class App extends Component {
           </form>
         </header>
         <p className="App-intro" />
-        <ImageList
-          changePage={this.changePage}
-          page={thePage}
-          imageToDOM={imageToDOM}
-          imgData={images}
-        />
+        {err ? (
+          <div>
+            <p>
+              {err.response.data}, status: {err.response.status}
+            </p>
+            <p> Please try again in an hour. </p>
+          </div>
+        ) : (
+          <ImageList
+            changePage={this.changePage}
+            page={thePage}
+            imgData={images}
+          />
+        )}
+        {isLoading ? <h1>Loading data . . .</h1> : null}
       </div>
     );
   }
@@ -111,9 +121,7 @@ App.propTypes = {
   fetchAPI: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  imageToDOM: PropTypes.bool.isRequired,
   thePage: PropTypes.number.isRequired,
-  scrolling: PropTypes.bool.isRequired,
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string
@@ -127,7 +135,7 @@ App.propTypes = {
 const mapStateToProps = state => {
   const { searchQuery, promiseReducer, receiveData } = state;
   // promise data reducer
-  const { isLoading, imageToDOM, thePage, scrolling } = promiseReducer;
+  const { isLoading, thePage, err } = promiseReducer;
   // state shape
   const { imgData: images, pageHeaders, pageRange } = receiveData[
     searchQuery
@@ -139,20 +147,18 @@ const mapStateToProps = state => {
     pageHeaders,
     promiseReducer,
     searchQuery,
-    imageToDOM,
     images,
     pageRange,
     isLoading,
     thePage,
-    scrolling
+    err
   };
 };
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       fetchAPI,
-      createQuery,
-      isScrolling
+      createQuery
     },
     dispatch
   );
