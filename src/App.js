@@ -14,15 +14,7 @@ import "./styles/App.css";
 import { fetchAPI, createQuery, isScrolling } from "./actions/index";
 
 class App extends Component {
-  componentWillMount() {
-    const { isScrolling } = this.props;
-    this.scrollListener = window.addEventListener("scroll", e => {
-      this.handleScroll(isScrolling(true));
-      // console.log(typeof e);
-      // isScrolling(e);
-      // console.log(isScrolling(e));
-    });
-  }
+  componentWillMount() {}
   componentDidMount() {
     const { fetchAPI, searchQuery, thePage } = this.props;
     fetchAPI(searchQuery, thePage);
@@ -65,25 +57,6 @@ class App extends Component {
     const { fetchAPI, searchQuery, thePage } = this.props;
     if (thePage !== page) {
       fetchAPI(searchQuery, page);
-    }
-  };
-  handleScroll = e => {
-    const { scrolling, thePage, isScrolling } = this.props;
-    if (scrolling) {
-      if (this.totalPages() >= thePage) {
-        const lastLi = document.querySelector(
-          "ul.image-container > li:last-child"
-        );
-        const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
-        const pageOffset = window.pageYOffset + window.innerHeight;
-        let bottomOffset = 0;
-        console.log(pageOffset, "page-offset");
-        console.log(lastLiOffset, "lastLiOffset");
-        if (pageOffset > lastLiOffset - bottomOffset) {
-          this.changePage(this.loadMore());
-          // console.log(pageUpdate);
-        }
-      }
     }
   };
   loadMore = () => {
