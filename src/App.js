@@ -12,6 +12,8 @@ import "./styles/App.css";
 
 import { fetchAPI, createQuery } from "./actions/index";
 
+import Loader from "./components/Loader";
+
 class App extends Component {
   componentWillMount() {
     window.addEventListener("scroll", e => {
@@ -29,12 +31,6 @@ class App extends Component {
       fetchAPI(textQuery, 1); //reset page to 1
     }
   }
-  // expensive live search
-  // inputChange = inputValue => {
-  // const { searchQuery } = this.props;
-  // const inputText = inputValue.target.value.trim();
-  // searchQuery(inputText);
-  // };
   handleScroll = e => {
     const { thePage, err, isLoading } = this.props;
     if (this.totalPages <= thePage) return;
@@ -42,9 +38,7 @@ class App extends Component {
     // scrolling offsets
     if (err) return;
     if (!isLoading) {
-      const lastLi = document.querySelector(
-        "ul.MuiGridList-root-4 > li:last-child"
-      );
+      const lastLi = document.querySelector("ul#img-gallery > li:last-child");
       const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
       const pageOffset = window.pageYOffset + window.innerHeight;
       let bottomOffset = 1;
@@ -107,7 +101,7 @@ class App extends Component {
             imgData={images}
           />
         )}
-        {isLoading ? <h1>Loading data . . .</h1> : null}
+        {isLoading ? <Loader /> : null}
       </div>
     );
   }
