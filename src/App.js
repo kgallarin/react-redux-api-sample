@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 // components
 import WrappedImageList from "./components/ImageList";
 // assets
-import "normalize.css/normalize.css";
 import "./styles/App.css";
 
 import { fetchAPI, createQuery } from "./actions/index";
@@ -124,7 +123,8 @@ App.propTypes = {
   pageHeaders: PropTypes.shape({
     xtotal: PropTypes.string
   }),
-  createQuery: PropTypes.func.isRequired
+  createQuery: PropTypes.func.isRequired,
+  err: PropTypes.string.isRequired
 };
 const mapStateToProps = state => {
   const { searchQuery, promiseReducer, receiveData } = state;
