@@ -2,9 +2,22 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-// import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Image from "./Image";
+
+const styles = theme => ({
+  paper: {
+    position: "absolute",
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    outline: "none"
+  },
+  modal: {
+    display: "flex"
+  }
+});
 
 class ImageList extends Component {
   state = {
@@ -46,37 +59,22 @@ class ImageList extends Component {
   };
   render() {
     const { open, selected } = this.state;
+    const { classes } = this.props;
     return (
       <div style={{ padding: "0 calc(4px * 4)" }}>
         <GridList id="img-gallery" cellHeight={160} cols={3}>
           {this.renderList()}
         </GridList>
-        <input
-          type="button"
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            left: "0",
-            background: "transparent",
-            outline: "none",
-            border: "none"
-          }}
-          onClick={this.handleOpen}
-        />
-        <div>
-          <Modal
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-            open={open}
-            onClose={this.handleClose}
-            disableEnforceFocus={false}
-          >
-            <div>
-              <Image dataResponse={selected} />
-            </div>
-          </Modal>
-        </div>
+        <Modal
+          open={open}
+          onClose={this.handleClose}
+          className={classes.modal}
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
+          <div className={classes.paper}>
+            <Image dataResponse={selected} />
+          </div>
+        </Modal>
       </div>
     );
   }
@@ -89,7 +87,10 @@ ImageList.propTypes = {
     PropTypes.shape({
       urls: PropTypes.object
     })
-  )
+  ),
+  classes: PropTypes.shape({
+    paper: PropTypes.string
+  }).isRequired
 };
-
-export default ImageList;
+const WrappedImageList = withStyles(styles)(ImageList);
+export default WrappedImageList;

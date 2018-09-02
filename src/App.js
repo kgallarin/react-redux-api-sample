@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 // components
-import ImageList from "./components/ImageList";
+import WrappedImageList from "./components/ImageList";
 // assets
 import "normalize.css/normalize.css";
 import "./styles/App.css";
@@ -95,7 +95,7 @@ class App extends Component {
             <p> Please try again in an hour. </p>
           </div>
         ) : (
-          <ImageList
+          <WrappedImageList
             changePage={this.changePage}
             page={thePage}
             imgData={images}

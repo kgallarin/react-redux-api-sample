@@ -7,7 +7,11 @@ import registerServiceWorker from "./registerServiceWorker";
 import Store from "./store";
 
 let store = Store();
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  palette: {
+    type: "light"
+  }
+});
 
 const UnsplashToyApp = () => (
   <MuiThemeProvider theme={theme}>
