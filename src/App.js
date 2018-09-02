@@ -30,7 +30,7 @@ class App extends Component {
       fetchAPI(textQuery, 1); //reset page to 1
     }
   }
-  handleScroll = e => {
+  handleScroll = () => {
     const { thePage, err, isLoading } = this.props;
     if (this.totalPages <= thePage) return;
 
