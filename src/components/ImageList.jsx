@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
+import Grid from "@material-ui/core/Grid";
+// import GridListTile from "@material-ui/core/GridListTile";
+import Masonry from "react-masonry-component";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Image from "./Image";
+import Loader from "./Loader";
 
 const styles = theme => ({
   paper: {
@@ -18,7 +20,9 @@ const styles = theme => ({
     display: "flex"
   }
 });
-
+const masonryOptions = {
+  transitionDuration: 0
+};
 class ImageList extends Component {
   state = {
     open: false,
@@ -43,28 +47,35 @@ class ImageList extends Component {
   renderList = () => {
     const { imgData } = this.props;
     return imgData.map(imgData => (
-      <GridListTile
+      <Grid
+        item
         key={imgData.id}
         onClick={() => this.handleSelected(imgData)}
+        sm={12}
+        md={4}
+        lg={3}
       >
-        <div
-          style={{
-            background: " #000"
-          }}
-        >
+        <div style={{ width: "100%", height: "100%" }}>
           <Image dataResponse={imgData} />
         </div>
-      </GridListTile>
+      </Grid>
     ));
   };
   render() {
     const { open, selected } = this.state;
     const { classes } = this.props;
+    const imagesLoadedOptions = { background: "tomato" };
     return (
       <div style={{ padding: "0 calc(4px * 4)" }}>
-        <GridList id="img-gallery" cellHeight={160} cols={3}>
+        <Masonry
+          id="img-gallery"
+          elementType="ul"
+          options={masonryOptions}
+          style={{ padding: "0" }}
+          imagesLoadedOptions={imagesLoadedOptions}
+        >
           {this.renderList()}
-        </GridList>
+        </Masonry>
         <Modal
           open={open}
           onClose={this.handleClose}

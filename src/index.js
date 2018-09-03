@@ -10,7 +10,7 @@ import Store from "./store";
 let store = Store();
 const theme = createMuiTheme({
   palette: {
-    type: "dark"
+    type: "light"
   }
 });
 

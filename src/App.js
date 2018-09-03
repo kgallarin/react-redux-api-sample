@@ -37,7 +37,7 @@ class App extends Component {
     // scrolling offsets
     if (err) return;
     if (!isLoading) {
-      const lastLi = document.querySelector("ul#img-gallery > li:last-child");
+      const lastLi = document.querySelector("ul#img-gallery > div:last-child");
       const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
       const pageOffset = window.pageYOffset + window.innerHeight;
       let bottomOffset = 1;
