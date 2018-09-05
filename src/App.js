@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// redux
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import Grid from "@material-ui/core/Grid";
 
-// components
 import Header from "./components/Header";
-import WrappedImageList from "./components/ImageList";
+import ImageList from "./components/ImageList";
 // assets
 import "./styles/App.css";
 
@@ -90,13 +89,28 @@ class App extends Component {
             <p> Please try again in an hour. </p>
           </div>
         ) : (
-          <WrappedImageList
+          <ImageList
             changePage={this.changePage}
             page={thePage}
             imgData={images}
           />
         )}
-        {isLoading ? <Loader /> : null}
+        {isLoading ? (
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{
+              minHeight: "100vh"
+            }}
+          >
+            <Grid item xs={3}>
+              <Loader />
+            </Grid>{" "}
+          </Grid>
+        ) : null}
       </div>
     );
   }

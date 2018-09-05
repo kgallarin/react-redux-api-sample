@@ -2,19 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Masonry from "react-masonry-component";
-import { withStyles } from "@material-ui/core/styles";
+// import { withStyles } from "@material-ui/core/styles";
 import Image from "./Image";
 import Modal from "./Modal";
 
-const styles = theme => ({
-  paper: {
-    position: "absolute",
-    width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    outline: "none"
-  }
-});
 const masonryOptions = {
   transitionDuration: 0
 };
@@ -59,7 +50,6 @@ class ImageList extends Component {
   };
   render() {
     const { open, selected } = this.state;
-    const { classes } = this.props;
     return (
       <div style={{ padding: "0 calc(4px * 4)" }}>
         <Masonry
@@ -70,12 +60,7 @@ class ImageList extends Component {
         >
           {this.renderList()}
         </Masonry>
-        <Modal
-          handleClose={this.handleClose}
-          open={open}
-          selected={selected}
-          classes={classes}
-        />
+        <Modal handleClose={this.handleClose} open={open} selected={selected} />
       </div>
     );
   }
@@ -88,10 +73,6 @@ ImageList.propTypes = {
     PropTypes.shape({
       urls: PropTypes.object
     })
-  ),
-  classes: PropTypes.shape({
-    paper: PropTypes.string
-  }).isRequired
+  )
 };
-const WrappedImageList = withStyles(styles)(ImageList);
-export default WrappedImageList;
+export default ImageList;

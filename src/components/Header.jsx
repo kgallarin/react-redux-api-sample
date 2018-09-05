@@ -10,27 +10,23 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Grid from "@material-ui/core/Grid";
 
-const StyledAppBar = withStyles({
-  root: {
-    // background: "#000"
-    // marginBottom: "50px"
-    // position: "static"
-  },
-  positionStatic: {
-    // background: "#000"
+const style = theme => ({
+  appBar: {
+    background: theme.palette.primary.dark
   }
-})(AppBar);
+});
 
-const Header = ({ onSubmit }) => {
+const Header = props => {
+  const { classes, onSubmit } = props;
   return (
-    <StyledAppBar position="static">
+    <AppBar position="static" className={classes.appBar}>
       <ToolBar>
         <Grid container>
           <Grid item lg={4}>
-            Logo here
+            {/* Logo here */}
           </Grid>
           <Grid item lg={4}>
-            <form onSubmit={onSubmit}>
+            <form autoComplete="off" onSubmit={onSubmit}>
               <FormControl fullWidth>
                 <InputLabel htmlFor="input-with-icon-adornment">
                   Search images
@@ -50,12 +46,19 @@ const Header = ({ onSubmit }) => {
           </Grid>
         </Grid>
       </ToolBar>
-    </StyledAppBar>
+    </AppBar>
   );
 };
 
-Header.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+Header.defaultProps = {
+  classes: {}
 };
 
-export default Header;
+Header.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  classes: PropTypes.shape({
+    appBar: PropTypes.string
+  })
+};
+
+export default withStyles(style)(Header);

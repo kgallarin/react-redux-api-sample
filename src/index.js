@@ -6,13 +6,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import Store from "./store";
+import uiThemeConfig from "./styles/MuiThemeConfig";
 
 let store = Store();
-const theme = createMuiTheme({
-  palette: {
-    type: "light"
-  }
-});
+const theme = createMuiTheme(uiThemeConfig);
 
 const UnsplashToyApp = () => (
   <MuiThemeProvider theme={theme}>
