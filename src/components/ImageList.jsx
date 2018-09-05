@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
-// import GridListTile from "@material-ui/core/GridListTile";
 import Masonry from "react-masonry-component";
 import { withStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Paper from "@material-ui/core/Paper";
 import Image from "./Image";
-// import Loader from "./Loader";
+import Modal from "./Modal";
 
 const styles = theme => ({
   paper: {
@@ -16,9 +13,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     outline: "none"
-  },
-  modal: {
-    display: "flex"
   }
 });
 const masonryOptions = {
@@ -47,10 +41,10 @@ class ImageList extends Component {
   };
   renderList = () => {
     const { imgData } = this.props;
-    return imgData.map(imgData => (
+    return imgData.map((imgData, key) => (
       <Grid
         item
-        key={imgData.id}
+        key={key}
         onClick={() => this.handleSelected(imgData)}
         xsm={12}
         sm={6}
@@ -77,15 +71,11 @@ class ImageList extends Component {
           {this.renderList()}
         </Masonry>
         <Modal
+          handleClose={this.handleClose}
           open={open}
-          onClose={this.handleClose}
-          className={classes.modal}
-          style={{ alignItems: "center", justifyContent: "center" }}
-        >
-          <Paper className={classes.paper}>
-            <Image dataResponse={selected} />
-          </Paper>
-        </Modal>
+          selected={selected}
+          classes={classes}
+        />
       </div>
     );
   }

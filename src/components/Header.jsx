@@ -5,7 +5,6 @@ import ToolBar from "@material-ui/core/Toolbar";
 import { withStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ImageCollections from "@material-ui/icons/Collections";
-import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -13,14 +12,15 @@ import Input from "@material-ui/core/Input";
 const styles = {
   root: {
     flexGrow: 1
-  }
+  },
+  positionStatic: {}
 };
 
 const Header = ({ onSubmit }) => {
   return (
     <header className="App-header">
       <AppBar>
-        <ToolBar positionStatic>
+        <ToolBar>
           <form onSubmit={onSubmit}>
             <FormControl>
               <InputLabel htmlFor="input-with-icon-adornment">
