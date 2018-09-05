@@ -55,7 +55,7 @@ class ImageList extends Component {
         md={4}
         lg={3}
       >
-        <div style={{ width: "100%", height: "100%" }}>
+        <div style={{ width: "100%", height: "100%", padding: "15px" }}>
           <Image dataResponse={imgData} />
         </div>
       </Grid>
@@ -64,12 +64,11 @@ class ImageList extends Component {
   render() {
     const { open, selected } = this.state;
     const { classes } = this.props;
-    const imagesLoadedOptions = { background: "tomato" };
+    const imagesLoadedOptions = { background: ".black" };
     return (
       <div style={{ padding: "0 calc(4px * 4)" }}>
         <Masonry
           id="img-gallery"
-          elementType="ul"
           options={masonryOptions}
           style={{ padding: "0" }}
           imagesLoadedOptions={imagesLoadedOptions}
