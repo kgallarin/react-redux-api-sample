@@ -8,38 +8,49 @@ import ImageCollections from "@material-ui/icons/Collections";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
+import Grid from "@material-ui/core/Grid";
 
-const styles = {
+const StyledAppBar = withStyles({
   root: {
-    flexGrow: 1
+    // background: "#000"
+    // marginBottom: "50px"
+    // position: "static"
   },
-  positionStatic: {}
-};
+  positionStatic: {
+    // background: "#000"
+  }
+})(AppBar);
 
 const Header = ({ onSubmit }) => {
   return (
-    <header className="App-header">
-      <AppBar>
-        <ToolBar>
-          <form onSubmit={onSubmit}>
-            <FormControl>
-              <InputLabel htmlFor="input-with-icon-adornment">
-                Search images
-              </InputLabel>
-              <Input
-                name="inputQuery"
-                id="input-with-icon-adornment"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <ImageCollections />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </form>
-        </ToolBar>
-      </AppBar>
-    </header>
+    <StyledAppBar position="static">
+      <ToolBar>
+        <Grid container>
+          <Grid item lg={4}>
+            Logo here
+          </Grid>
+          <Grid item lg={4}>
+            <form onSubmit={onSubmit}>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="input-with-icon-adornment">
+                  Search images
+                </InputLabel>
+                <Input
+                  fullWidth
+                  name="inputQuery"
+                  id="input-with-icon-adornment"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <ImageCollections color="action" />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </form>
+          </Grid>
+        </Grid>
+      </ToolBar>
+    </StyledAppBar>
   );
 };
 
@@ -47,4 +58,4 @@ Header.propTypes = {
   onSubmit: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(Header);
+export default Header;
