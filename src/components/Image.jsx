@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import LazyLoad from "react-lazyload";
+// import LazyLoad from "react-lazyload";
 
 const Image = ({ dataResponse }) => {
   return (

@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 // components
+import Header from "./components/Header";
 import WrappedImageList from "./components/ImageList";
 // assets
 import "./styles/App.css";
@@ -80,12 +81,7 @@ class App extends Component {
     const { images, thePage, err, isLoading } = this.props;
     return (
       <div className="App">
-        <header className="App-header">
-          <form onSubmit={this.formSubmit}>
-            <input name="inputQuery" type="text" />
-          </form>
-        </header>
-        <p className="App-intro" />
+        <Header onSubmit={this.formSubmit} />
         {err ? (
           <div>
             <p>

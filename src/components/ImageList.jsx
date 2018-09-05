@@ -5,8 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import Masonry from "react-masonry-component";
 import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
+import Paper from "@material-ui/core/Paper";
 import Image from "./Image";
-import Loader from "./Loader";
+// import Loader from "./Loader";
 
 const styles = theme => ({
   paper: {
@@ -51,11 +52,12 @@ class ImageList extends Component {
         item
         key={imgData.id}
         onClick={() => this.handleSelected(imgData)}
-        sm={12}
-        md={4}
+        xsm={12}
+        sm={6}
         lg={3}
+        xl={2}
       >
-        <div style={{ width: "100%", height: "100%", padding: "15px" }}>
+        <div style={{ width: "100%", height: "100%", padding: "10px" }}>
           <Image dataResponse={imgData} />
         </div>
       </Grid>
@@ -64,14 +66,13 @@ class ImageList extends Component {
   render() {
     const { open, selected } = this.state;
     const { classes } = this.props;
-    const imagesLoadedOptions = { background: ".black" };
     return (
       <div style={{ padding: "0 calc(4px * 4)" }}>
         <Masonry
           id="img-gallery"
           options={masonryOptions}
           style={{ padding: "0" }}
-          imagesLoadedOptions={imagesLoadedOptions}
+          updateOnEachImageLoad
         >
           {this.renderList()}
         </Masonry>
@@ -81,9 +82,9 @@ class ImageList extends Component {
           className={classes.modal}
           style={{ alignItems: "center", justifyContent: "center" }}
         >
-          <div className={classes.paper}>
+          <Paper className={classes.paper}>
             <Image dataResponse={selected} />
-          </div>
+          </Paper>
         </Modal>
       </div>
     );
