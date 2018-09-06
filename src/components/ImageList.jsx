@@ -21,7 +21,8 @@ const masonryOptions = {
 class ImageList extends Component {
   state = {
     open: false,
-    selected: {}
+    selected: {},
+    layout: false
   };
   handleOpen = () => {
     this.setState({
@@ -57,9 +58,25 @@ class ImageList extends Component {
       </Grid>
     ));
   };
+  handleOnImagesLoaded = () => {
+    console.log("ok na");
+    // this.setState({
+    //   layout: true
+    // });
+  };
+  handleLayoutComplete = e => {
+    console.log(e);
+    // console.log("kumpleto na");
+    // this.setState({
+    //   layout: true
+    // });
+  };
+  handleRemoveComplete = e => {
+    console.log(e);
+  };
   render() {
     const { classes } = this.props;
-    const { open, selected } = this.state;
+    const { open, selected, layout } = this.state;
     return (
       <div className={classes.root}>
         <Masonry
@@ -67,7 +84,15 @@ class ImageList extends Component {
           options={masonryOptions}
           style={{ padding: "0" }}
           updateOnEachImageLoad
+          onImagesLoaded={this.handleOnImagesLoaded}
+          onLayoutComplete={itemsComplete =>
+            this.handleLayoutComplete(itemsComplete)
+          }
+          onRemoveComplete={itemsRemove =>
+            this.handleRemoveComplete(itemsRemove)
+          }
         >
+          {layout ? "true" : "false"}
           {this.renderList()}
         </Masonry>
         <Modal handleClose={this.handleClose} open={open} selected={selected} />
