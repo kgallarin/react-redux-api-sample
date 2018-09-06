@@ -2,10 +2,19 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Masonry from "react-masonry-component";
-// import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Image from "./Image";
 import Modal from "./Modal";
 
+const styles = theme => ({
+  root: {
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit
+  },
+  imageContainer: {
+    padding: theme.spacing.unit
+  }
+});
 const masonryOptions = {
   transitionDuration: 0
 };
@@ -31,7 +40,7 @@ class ImageList extends Component {
     });
   };
   renderList = () => {
-    const { imgData } = this.props;
+    const { imgData, classes } = this.props;
     return imgData.map((imgData, key) => (
       <Grid
         item
@@ -39,19 +48,20 @@ class ImageList extends Component {
         onClick={() => this.handleSelected(imgData)}
         xsm={12}
         sm={6}
-        lg={3}
-        xl={2}
+        lg={4}
+        xl={4}
       >
-        <div style={{ width: "100%", height: "100%", padding: "10px" }}>
+        <div className={classes.imageContainer}>
           <Image dataResponse={imgData} />
         </div>
       </Grid>
     ));
   };
   render() {
+    const { classes } = this.props;
     const { open, selected } = this.state;
     return (
-      <div style={{ padding: "0 calc(4px * 4)" }}>
+      <div className={classes.root}>
         <Masonry
           id="img-gallery"
           options={masonryOptions}
@@ -75,4 +85,4 @@ ImageList.propTypes = {
     })
   )
 };
-export default ImageList;
+export default withStyles(styles)(ImageList);

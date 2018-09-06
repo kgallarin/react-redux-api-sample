@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
 import { withStyles } from "@material-ui/core/styles";
@@ -9,11 +11,16 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Grid from "@material-ui/core/Grid";
+import { Typography } from "@material-ui/core";
 
 const style = theme => ({
   appBar: {
     background: theme.palette.primary.dark
-  }
+  },
+  gridContainer: {
+    padding: "10px 0"
+  },
+  inputForm: {}
 });
 
 const Header = props => {
@@ -21,11 +28,18 @@ const Header = props => {
   return (
     <AppBar position="static" className={classes.appBar}>
       <ToolBar>
-        <Grid container>
-          <Grid item lg={4}>
-            {/* Logo here */}
-          </Grid>
-          <Grid item lg={4}>
+        <Grid
+          container
+          className={classes.gridContainer}
+          spacing={0}
+          direction="row"
+          alignItems="center"
+          justify="center"
+        >
+          {/* <Grid item xs={1}>
+            <Typography>Logo here</Typography>
+          </Grid> */}
+          <Grid item xs={6} className={classes.inputForm}>
             <form autoComplete="off" onSubmit={onSubmit}>
               <FormControl fullWidth>
                 <InputLabel htmlFor="input-with-icon-adornment">
@@ -44,6 +58,24 @@ const Header = props => {
               </FormControl>
             </form>
           </Grid>
+          {/* <Grid item xs={5}>
+            <Grid
+              container
+              direction="row"
+              alignItems="flex-start"
+              justify="flex-end"
+            >
+              <Grid item xs={3}>
+                <Button>Links 1</Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>Links 1</Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>Links 1</Button>
+              </Grid>
+            </Grid>
+          </Grid> */}
         </Grid>
       </ToolBar>
     </AppBar>

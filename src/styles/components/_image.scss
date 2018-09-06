@@ -1,38 +1,4 @@
-.image-container{
-    margin:0;
-    padding:0;
-}
-// .image-container:after {
-//     visibility: hidden;
-//     display: block;
-//     content: "";
-//     clear: both;
-//     height: 0;
-// }
-.image-container-list {
-    // float: left;
-    // width: 50%;
-}
-.image-container-list__inner{
-
-}
-.image-container-list__inner__text {
-
-}
-
 img {
     width: 100%;
     display: block;
-}
-.show {
-    // display: block;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity:0;
-    }
-    to{
-        opacity:1;
-    }
 }

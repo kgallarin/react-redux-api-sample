@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
 
 import Header from "./components/Header";
 import ImageList from "./components/ImageList";
@@ -95,22 +94,7 @@ class App extends Component {
             imgData={images}
           />
         )}
-        {isLoading ? (
-          <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{
-              minHeight: "100vh"
-            }}
-          >
-            <Grid item xs={3}>
-              <Loader />
-            </Grid>{" "}
-          </Grid>
-        ) : null}
+        {isLoading ? <Loader /> : null}
       </div>
     );
   }

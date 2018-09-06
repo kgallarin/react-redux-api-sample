@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import grey from "@material-ui/core/colors/grey";
 
@@ -10,14 +12,31 @@ const styles = theme => ({
 const Loader = props => {
   const { classes } = props;
   return (
-    <div>
-      <CircularProgress
-        className={classes.progress}
-        size={50}
-        style={{ color: grey[800] }}
-      />
-    </div>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{
+        minHeight: "100vh"
+      }}
+    >
+      <Grid item xs={3}>
+        <CircularProgress
+          className={classes.progress}
+          size={50}
+          style={{ color: grey[800] }}
+        />
+      </Grid>
+    </Grid>
   );
+};
+
+Loader.propTypes = {
+  classes: PropTypes.shape({
+    appBar: PropTypes.string
+  })
 };
 
 export default withStyles(styles)(Loader);
