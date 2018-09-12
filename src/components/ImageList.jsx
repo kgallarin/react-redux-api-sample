@@ -42,13 +42,13 @@ class ImageList extends Component {
   };
   renderList = () => {
     const { imgData, classes } = this.props;
-    return imgData.map((imgData, key) => (
+    return imgData.map(imgData => (
       <Grid
         item
-        key={key}
+        key={imgData.id}
         onClick={() => this.handleSelected(imgData)}
         xsm={12}
-        sm={6}
+        sm={4}
         lg={4}
         xl={4}
       >
@@ -59,13 +59,12 @@ class ImageList extends Component {
     ));
   };
   handleOnImagesLoaded = () => {
-    console.log("ok na");
     // this.setState({
     //   layout: true
     // });
   };
   handleLayoutComplete = e => {
-    console.log(e);
+    // console.log(e);
     // console.log("kumpleto na");
     // this.setState({
     //   layout: true
@@ -92,7 +91,6 @@ class ImageList extends Component {
             this.handleRemoveComplete(itemsRemove)
           }
         >
-          {layout ? "true" : "false"}
           {this.renderList()}
         </Masonry>
         <Modal handleClose={this.handleClose} open={open} selected={selected} />
@@ -108,6 +106,7 @@ ImageList.propTypes = {
     PropTypes.shape({
       urls: PropTypes.object
     })
-  )
+  ),
+  classes: PropTypes.shape({})
 };
 export default withStyles(styles)(ImageList);
