@@ -71,11 +71,11 @@ class ImageList extends Component {
     // });
   };
   handleRemoveComplete = e => {
-    console.log(e);
+    // console.log(e);
   };
   render() {
     const { classes } = this.props;
-    const { open, selected, layout } = this.state;
+    const { open, selected } = this.state;
     return (
       <div className={classes.root}>
         <Masonry
@@ -107,6 +107,6 @@ ImageList.propTypes = {
       urls: PropTypes.object
     })
   ),
-  classes: PropTypes.shape({})
+  classes: PropTypes.object.isRequired //eslint-disable-line react/forbid-prop-types
 };
 export default withStyles(styles)(ImageList);
