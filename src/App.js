@@ -85,7 +85,7 @@ class App extends Component {
             <p>
               {err.response.data}, status: {err.response.status}
             </p>
-            <p> Please try again in an hour. </p>
+            <p> Please try again in an hour.</p>
           </div>
         ) : (
           <ImageList
