@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
 import Store from "./store";
 import uiThemeConfig from "./styles/MuiThemeConfig";
 
@@ -21,4 +20,3 @@ const UnsplashToyApp = () => (
 );
 
 ReactDOM.render(<UnsplashToyApp />, document.getElementById("root"));
-registerServiceWorker();
