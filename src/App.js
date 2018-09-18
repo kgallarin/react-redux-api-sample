@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import Header from "./components/Header";
 import ImageList from "./components/ImageList";
 // assets
-import "./styles/App.css";
 
 import { fetchAPI, createQuery } from "./actions/index";
 

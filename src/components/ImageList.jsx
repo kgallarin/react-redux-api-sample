@@ -21,8 +21,8 @@ const masonryOptions = {
 class ImageList extends Component {
   state = {
     open: false,
-    selected: {},
-    layout: false
+    selected: {}
+    // layout: false
   };
   handleOpen = () => {
     this.setState({

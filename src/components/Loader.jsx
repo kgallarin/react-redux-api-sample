@@ -34,9 +34,7 @@ const Loader = props => {
 };
 
 Loader.propTypes = {
-  classes: PropTypes.shape({
-    appBar: PropTypes.string
-  })
+  classes: PropTypes.object.isRequired //eslint-disable-line react/forbid-prop-types
 };
 
 export default withStyles(styles)(Loader);
