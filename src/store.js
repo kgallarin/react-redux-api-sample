@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
 import reduxPromiseMiddleware from "redux-promise-middleware";
 import reduxLogger from "redux-logger";
-import rootReducer from "./reducers/index";
+import rootReducer from "./reducers";
 
 let composeEnhancers = compose;
 let middlewares = [reduxThunk, reduxPromiseMiddleware()];
